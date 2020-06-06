@@ -35,7 +35,7 @@
 #include <QVBoxLayout>
 
 /* layout visualizer header */
-#include "LayoutVisualizer.h"
+#include <LayoutVisualizer.h>
 
 /* local header */
 #include "SimpleDemo.h"
