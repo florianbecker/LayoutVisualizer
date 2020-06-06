@@ -33,9 +33,6 @@
 /* qt header */
 #include <QWidget>
 
-/* local header */
-#include "../../source/LayoutVisualizer.h"
-
 namespace VX {
 
   class SimpleDemo : public QWidget {
