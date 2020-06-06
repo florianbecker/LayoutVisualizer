@@ -34,6 +34,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+include_directories(../../source)
+
 add_executable(SimpleDemo
   main.cpp
   Mac.mm

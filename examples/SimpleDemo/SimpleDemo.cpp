@@ -34,6 +34,9 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+/* layout visualizer header */
+#include "LayoutVisualizer.h"
+
 /* local header */
 #include "SimpleDemo.h"
 
