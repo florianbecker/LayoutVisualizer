@@ -38,11 +38,11 @@
 
 namespace VX {
 
-  class Widget : public QWidget {
+  class SimpleDemo : public QWidget {
 
     Q_OBJECT
 
   public:
-    Widget( QWidget *_parent = nullptr );
+    SimpleDemo( QWidget *_parent = nullptr );
   };
 }

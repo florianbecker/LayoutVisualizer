@@ -34,12 +34,16 @@
 /* local header */
 #include "RasterWindow.h"
 
-int main( int argc, char **argv )
-{
-   QGuiApplication app( argc, argv );
+int main( int argc, char **argv ) {
 
-   RasterWindow window;
-   window.show();
+  QGuiApplication app( argc, argv );
+  QGuiApplication::setApplicationName( QStringLiteral( "RasterWindow" ) );
+  QGuiApplication::setApplicationVersion( QStringLiteral( "0.0.1" ) );
+  QGuiApplication::setOrganizationName( QStringLiteral( "VX Apps" ) );
+  QGuiApplication::setOrganizationDomain( QStringLiteral( "https://vxapps.com"  ) );
 
-   return app.exec();
+  VX::RasterWindow window;
+  window.show();
+
+  return QGuiApplication::exec();
 }

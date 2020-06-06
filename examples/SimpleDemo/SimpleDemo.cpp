@@ -39,7 +39,7 @@
 
 namespace VX {
 
-  Widget::Widget( QWidget *_parent ) : QWidget( _parent ) {
+  SimpleDemo::SimpleDemo( QWidget *_parent ) : QWidget( _parent ) {
 
     QVBoxLayout *layout = new QVBoxLayout( this );
 

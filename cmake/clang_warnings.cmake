@@ -38,8 +38,4 @@ set(LV_WARNING_FLAGS
   # Own parameter
   -Wno-c++98-compat # C++11
   -Wno-padded
-
-  # Project based
-  -Wno-weak-vtables
-  -Wno-global-constructors
 )
