@@ -30,27 +30,31 @@
 
 #pragma once
 
+/* qt header */
 #include <QWindow>
 
-class RasterWindow : public QWindow {
+namespace VX {
 
-  Q_OBJECT
+  class RasterWindow : public QWindow {
 
-public:
-  explicit RasterWindow( QWindow *parent = nullptr );
+    Q_OBJECT
 
-  virtual void render( QPainter *painter );
+  public:
+    explicit RasterWindow( QWindow *_parent = nullptr );
 
-public slots:
-  void renderLater();
-  void renderNow();
+  protected:
+    bool event( QEvent *_event ) override;
 
-protected:
-  bool event( QEvent *event ) override;
+    void resizeEvent( QResizeEvent *_event ) override;
+    void exposeEvent( QExposeEvent *_event ) override;
 
-  void resizeEvent( QResizeEvent *event ) override;
-  void exposeEvent( QExposeEvent *event ) override;
+  private:
+    QBackingStore *m_backingStore;
 
-private:
-  QBackingStore *m_backingStore;
-};
+    virtual void render( QPainter *_painter );
+
+    void renderNow();
+
+    void renderLater();
+  };
+}

@@ -40,9 +40,9 @@
 
 namespace VX {
 
-  const QColor masterLayerColor = Qt::blue;
+  constexpr QColor masterLayerColor = QColor( 0, 0, 255 );
 
-  const QColor secondLayerBaseColor = Qt::red;
+  constexpr QColor secondLayerBaseColor = QColor( 255, 0, 0 );
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
     : QObject( _parent ) {}
@@ -92,6 +92,7 @@ namespace VX {
                                      int _layer ) {
 
     if ( !_painter || !_layout ) {
+
       return;
     }
 
@@ -123,7 +124,7 @@ namespace VX {
     _painter->fillRect( _layout->contentsRect(), brush );
 
     int layer = _layer + 1;
-    for ( auto x = 0; x < _layout->count(); ++x ) {
+    for ( int x = 0; x < _layout->count(); ++x ) {
 
       QLayoutItem *item = _layout->itemAt( x );
 

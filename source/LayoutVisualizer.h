@@ -41,6 +41,8 @@ namespace VX {
 
   class LayoutVisualizer : public QObject {
 
+    Q_OBJECT
+
   public:
     explicit LayoutVisualizer( QObject *_parent );
 

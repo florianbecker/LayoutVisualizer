@@ -48,6 +48,8 @@ namespace VX {
 
   class MacExtras : public QObject {
 
+    Q_OBJECT
+
   public:
     MacExtras( QObject *_parent );
   };
