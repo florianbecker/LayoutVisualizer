@@ -34,10 +34,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_library(LayoutVisualizer
+add_library(${PROJECT_NAME}
   ../README.md
   LayoutVisualizer.cpp
   LayoutVisualizer.h
 )
 
-target_link_libraries(LayoutVisualizer PRIVATE Qt5::Widgets)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)

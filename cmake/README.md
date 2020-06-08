@@ -14,4 +14,4 @@ Overall find package to use these variables in other cmake files
 ## Add environment variables
 
 Open env.cmake and create a new include directory:
-set(LV_SOURCES_MYSHAREDINCLUDE ${LV_SOURCES_SHARED}/MySharedInclude)
+set(SOURCES_MYSHAREDINCLUDE ${SOURCES_SHARED}/MySharedInclude)

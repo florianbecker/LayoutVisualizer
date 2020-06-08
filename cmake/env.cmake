@@ -32,11 +32,11 @@
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Pathes
-if(NOT LV_DEV)
-  get_filename_component(LV_DEV "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+if(NOT DEV)
+  get_filename_component(DEV "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 endif()
 
-set(LV_CMAKE ${LV_DEV}/cmake)
+set(CMAKE ${DEV}/cmake)
 
 # Force C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -45,46 +45,31 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(USE_CLANG false)
-if (CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]") #Case insensitive match
-  set(USE_CLANG true)
-else()
-  set(USE_CLANG false)
-endif()
-
-set(USE_GCC false)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(USE_GCC true)
-else()
-  set(USE_GCC false)
-endif()
-
 # Warning flags
-if(USE_CLANG)
-include(${LV_CMAKE}/clang_warnings.cmake)
+# Case insensitive match
+if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
+  include(${CMAKE}/clang_warnings.cmake)
 
-set(LV_WARNING_FLAGS_SPACED "")
-  foreach(LV_WARNING_FLAG ${LV_WARNING_FLAGS})
-    set(LV_WARNING_FLAGS_SPACED "${LV_WARNING_FLAGS_SPACED} ${LV_WARNING_FLAG}")
-endforeach()
+  set(WARNING_FLAGS_SPACED "")
+  foreach(WARNING_FLAG ${WARNING_FLAGS})
+    set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
+  endforeach()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LV_WARNING_FLAGS_SPACED}")
-endif()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
 
-if(USE_GCC)
-  include(${LV_CMAKE}/gcc_warnings.cmake)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  include(${CMAKE}/gcc_warnings.cmake)
 
-set(LV_WARNING_FLAGS_SPACED "")
-  foreach(LV_WARNING_FLAG ${LV_WARNING_FLAGS})
-    set(LV_WARNING_FLAGS_SPACED "${LV_WARNING_FLAGS_SPACED} ${LV_WARNING_FLAG}")
-endforeach()
+  set(WARNING_FLAGS_SPACED "")
+  foreach(WARNING_FLAG ${WARNING_FLAGS})
+    set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
+  endforeach()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LV_WARNING_FLAGS_SPACED}")
-endif()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
 
-if(MSVC)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   # Force to always compile with W4
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
   if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
@@ -97,7 +82,7 @@ add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Project modules/variables
-set(CMAKE_MODULE_PATH ${LV_CMAKE}/modules)
+set(CMAKE_MODULE_PATH ${CMAKE}/modules)
 
 # Includes
-include(${LV_CMAKE}/find_package.cmake)
+include(${CMAKE}/find_package.cmake)

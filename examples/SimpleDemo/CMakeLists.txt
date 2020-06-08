@@ -34,9 +34,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-include_directories(../../source)
-
-add_executable(SimpleDemo
+add_executable(${PROJECT_NAME}
   main.cpp
   Mac.mm
   Mac.h
@@ -44,4 +42,4 @@ add_executable(SimpleDemo
   SimpleDemo.h
 )
 
-target_link_libraries(SimpleDemo PRIVATE LayoutVisualizer Qt5::Widgets "-framework CoreFoundation" "-framework Cocoa")
+target_link_libraries(${PROJECT_NAME} PRIVATE LayoutVisualizer Qt5::Widgets "-framework CoreFoundation" "-framework Cocoa")
