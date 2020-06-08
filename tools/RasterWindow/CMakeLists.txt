@@ -34,10 +34,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_executable(RasterWindow
+add_executable(${PROJECT_NAME}
   main.cpp
   RasterWindow.cpp
   RasterWindow.h
 )
 
-target_link_libraries(RasterWindow PRIVATE Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)

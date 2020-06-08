@@ -28,7 +28,7 @@
 # * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # */
 
-set(LV_WARNING_FLAGS
+set(WARNING_FLAGS
 
   # From Xcode default project
 #  -Wno-sign-conversion
