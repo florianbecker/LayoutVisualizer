@@ -33,14 +33,14 @@
 #include <QEvent>
 
 /* objc header */
-#import <Cocoa/Cocoa.h>
+#include <Cocoa/Cocoa.h>
 
 /* local header */
 #include "Mac.h"
 
-namespace VX {
+namespace vx {
 
-  namespace Mac {
+  namespace mac {
 
     InterfaceStyle currentInterfaceStyle() {
 

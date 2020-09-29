@@ -34,15 +34,18 @@
 #include <QPainter>
 #include <QStyle>
 #include <QWidget>
+#include <QDebug>
 
 /* local header */
 #include "LayoutVisualizer.h"
 
-namespace VX {
+namespace vx {
 
   constexpr QColor masterLayerColor = QColor( 0, 0, 255 );
-
   constexpr QColor secondLayerBaseColor = QColor( 255, 0, 0 );
+
+  constexpr int darker = 100; // #1
+  constexpr int verticalLayoutSpacing = 6;
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
     : QObject( _parent ) {}
@@ -67,7 +70,7 @@ namespace VX {
     return false;
   }
 
-  void LayoutVisualizer::recrusiveEventFilter( QWidget *_widget ) {
+  void LayoutVisualizer::recrusiveEventFilter( const QWidget *_widget ) {
 
     if ( !_widget->layout() ) {
       return;
@@ -108,7 +111,7 @@ namespace VX {
 
     if ( _layer > 1 ) {
 
-      currentColor = currentColor.darker( 100 * _layer );
+      currentColor = currentColor.darker( darker * _layer );
     }
 
     _painter->setPen( currentColor );
@@ -127,19 +130,24 @@ namespace VX {
     for ( int x = 0; x < _layout->count(); ++x ) {
 
       QLayoutItem *item = _layout->itemAt( x );
-
       if ( !item ) {
 
         continue;
       }
 
+      if ( item->layout() ) {
+
+        drawLayout( _painter, item->layout(), layer );
+        continue;
+      }
+
+      int horizontalSpacing = _layout->spacing();
+      int verticalSpacing = _layout->spacing();
       if ( item->widget() ) {
 
-        int horizontalSpacing = _layout->spacing();
-        int verticalSpacing = _layout->spacing();
         if ( horizontalSpacing == -1 ) {
 
-          QGridLayout *gridLayout = dynamic_cast<QGridLayout *>( _layout );
+          const QGridLayout *gridLayout = dynamic_cast<QGridLayout *>( _layout );
           if ( gridLayout ) {
 
             horizontalSpacing = gridLayout->horizontalSpacing();
@@ -148,7 +156,7 @@ namespace VX {
         }
         if ( horizontalSpacing == -1 ) {
 
-          QFormLayout *formLayout = dynamic_cast<QFormLayout *>( _layout );
+          const QFormLayout *formLayout = dynamic_cast<QFormLayout *>( _layout );
           if ( formLayout ) {
 
             horizontalSpacing = formLayout->horizontalSpacing();
@@ -162,20 +170,15 @@ namespace VX {
         }
         if ( horizontalSpacing == -1 && _layout->parentWidget() ) {
 
-          horizontalSpacing = verticalSpacing = 6;  // TODO: Depreacted _layout->parentWidget()->style()->pixelMetric( QStyle::PM_LayoutVerticalSpacing );
+          horizontalSpacing = verticalSpacing = verticalLayoutSpacing;  // #1
         }
-
-        QRect rect = item->widget()->contentsRect();
-        rect.moveTo( item->widget()->mapToParent( QPoint( 0, 0 ) ) );
-        rect = rect.marginsRemoved( QMargins( horizontalSpacing, verticalSpacing, horizontalSpacing, verticalSpacing ) );
-        _painter->eraseRect( rect );
-        _painter->drawRect( rect );
       }
 
-      if ( item->layout() ) {
-
-        drawLayout( _painter, item->layout(), layer );
-      }
+      QRect rect = item->widget()->contentsRect();
+      rect.moveTo( item->widget()->mapToParent( QPoint( 0, 0 ) ) );
+      rect = rect.marginsRemoved( QMargins( horizontalSpacing, verticalSpacing, horizontalSpacing, verticalSpacing ) );
+      _painter->eraseRect( rect );
+      _painter->drawRect( rect );
     }
   }
 }

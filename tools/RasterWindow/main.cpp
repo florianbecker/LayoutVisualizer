@@ -42,7 +42,7 @@ int main( int argc, char **argv ) {
   QGuiApplication::setOrganizationName( QStringLiteral( "VX Apps" ) );
   QGuiApplication::setOrganizationDomain( QStringLiteral( "https://vxapps.com"  ) );
 
-  VX::RasterWindow window;
+  vx::RasterWindow window;
   window.show();
 
   return QGuiApplication::exec();

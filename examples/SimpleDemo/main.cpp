@@ -43,10 +43,10 @@ int main( int argc, char *argv[] ) {
   QApplication::setOrganizationName( QStringLiteral( "VX Apps" ) );
   QApplication::setOrganizationDomain( QStringLiteral( "https://vxapps.com"  ) );
 
-  VX::SimpleDemo w;
+  vx::SimpleDemo w;
   w.show();
 
-  VX::MacExtras xtra( &w );
+  vx::MacExtras xtra( &w );
   Q_UNUSED( xtra );
 
   return QApplication::exec();

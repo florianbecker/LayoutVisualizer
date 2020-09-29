@@ -33,13 +33,13 @@
 /* qt header */
 #include <QWidget>
 
-namespace VX {
+namespace vx {
 
   class SimpleDemo : public QWidget {
 
     Q_OBJECT
 
   public:
-    SimpleDemo( QWidget *_parent = nullptr );
+    explicit SimpleDemo( QWidget *_parent = nullptr );
   };
 }

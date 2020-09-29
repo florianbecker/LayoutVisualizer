@@ -36,13 +36,19 @@
 /* local header */
 #include "RasterWindow.h"
 
-namespace VX {
+namespace vx {
+
+  constexpr int defaultX = 100;
+  constexpr int defaultY = 100;
+
+  constexpr int defaultWidth = 300;
+  constexpr int defaultHeight = 200;
 
   RasterWindow::RasterWindow( QWindow *_parent )
     : QWindow( _parent )
     , m_backingStore( new QBackingStore( this ) ) {
 
-    setGeometry( 100, 100, 300, 200 );
+    setGeometry( defaultX, defaultY, defaultWidth, defaultHeight );
   }
 
   bool RasterWindow::event( QEvent *_event ) {

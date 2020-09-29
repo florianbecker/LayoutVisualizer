@@ -33,7 +33,7 @@
 /* qt header */
 #include <QObject>
 
-namespace VX {
+namespace vx {
 
   enum class InterfaceStyle {
 
@@ -41,7 +41,7 @@ namespace VX {
     Dark = 1 /** Dark mode on mac mojave */
   };
 
-  namespace Mac {
+  namespace mac {
 
     InterfaceStyle currentInterfaceStyle();
   }
@@ -51,6 +51,6 @@ namespace VX {
     Q_OBJECT
 
   public:
-    MacExtras( QObject *_parent );
+    explicit MacExtras( QObject *_parent = nullptr );
   };
 }
