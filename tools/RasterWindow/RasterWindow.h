@@ -33,7 +33,7 @@
 /* qt header */
 #include <QWindow>
 
-namespace VX {
+namespace vx {
 
   class RasterWindow : public QWindow {
 

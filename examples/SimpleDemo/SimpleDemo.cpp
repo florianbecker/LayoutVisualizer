@@ -40,7 +40,7 @@
 /* local header */
 #include "SimpleDemo.h"
 
-namespace VX {
+namespace vx {
 
   SimpleDemo::SimpleDemo( QWidget *_parent ) : QWidget( _parent ) {
 

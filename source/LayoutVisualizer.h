@@ -37,7 +37,7 @@
 class QPainter;
 class QLayout;
 
-namespace VX {
+namespace vx {
 
   class LayoutVisualizer : public QObject {
 
@@ -50,7 +50,7 @@ namespace VX {
     bool eventFilter( QObject *_object, QEvent *_event ) override;
 
   private:
-    void recrusiveEventFilter( QWidget *_widget );
+    void recrusiveEventFilter( const QWidget *_widget );
 
     void drawLayout( QPainter *_painter,
                      QLayout *_layout,
