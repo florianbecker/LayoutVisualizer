@@ -28,4 +28,8 @@
 # * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # */
 
+if(APPLE)
+  find_library(COREFOUNDATION CoreFoundation REQUIRED)
+  find_library(COCOA Cocoa REQUIRED)
+endif()
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
