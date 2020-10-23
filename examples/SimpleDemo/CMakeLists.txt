@@ -45,4 +45,8 @@ add_executable(${PROJECT_NAME}
   ${${PROJECT_NAME}_os_src}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE LayoutVisualizer Qt5::Widgets "-framework CoreFoundation" "-framework Cocoa")
+if(APPLE AND NOT IOS)
+  set(${PROJECT_NAME}_os_libs ${COREFOUNDATION} ${COCOA})
+endif()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE LayoutVisualizer Qt5::Widgets ${${PROJECT_NAME}_os_libs})
