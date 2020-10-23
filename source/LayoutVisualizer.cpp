@@ -41,8 +41,13 @@
 
 namespace vx {
 
+#if QT_VERSION >= QT_VERSION_CHECK( 5, 13, 0 )
   constexpr QColor masterLayerColor = QColor( 0, 0, 255 );
   constexpr QColor secondLayerBaseColor = QColor( 255, 0, 0 );
+#else
+  const QColor masterLayerColor = QColor( 0, 0, 255 );
+  const QColor secondLayerBaseColor = QColor( 255, 0, 0 );
+#endif
 
   constexpr int darker = 100; // #1
   constexpr int verticalLayoutSpacing = 6;
