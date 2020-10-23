@@ -32,7 +32,9 @@
 #include <QApplication>
 
 /* local header */
+#ifdef __APPLE__
 #include "Mac.h"
+#endif
 #include "SimpleDemo.h"
 
 int main( int argc, char *argv[] ) {
@@ -46,8 +48,9 @@ int main( int argc, char *argv[] ) {
   vx::SimpleDemo w;
   w.show();
 
-  vx::MacExtras xtra( &w );
-  Q_UNUSED( xtra );
+  #ifdef __APPLE__
+  [[maybe_unused]] vx::MacExtras xtra( &w );
+  #endif
 
   return QApplication::exec();
 }
