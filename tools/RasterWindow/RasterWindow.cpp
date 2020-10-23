@@ -70,7 +70,7 @@ namespace vx {
     }
   }
 
-  void RasterWindow::exposeEvent( QExposeEvent */*_event*/ ) {
+  void RasterWindow::exposeEvent( [[maybe_unused]] QExposeEvent *_event ) {
 
     if ( isExposed() ) {
 
