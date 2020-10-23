@@ -41,4 +41,7 @@ set(WARNING_FLAGS
 
   # Qt > 5.13 const QColor
   -Wno-global-constructors
+
+  # Moc
+  -Wno-extra-semi-stmt
 )
