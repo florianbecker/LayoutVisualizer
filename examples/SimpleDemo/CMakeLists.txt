@@ -34,12 +34,15 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(APPLE AND NOT IOS)
+  set(${PROJECT_NAME}_os_src Mac.mm Mac.h)
+endif()
+
 add_executable(${PROJECT_NAME}
   main.cpp
-  Mac.mm
-  Mac.h
   SimpleDemo.cpp
   SimpleDemo.h
+  ${${PROJECT_NAME}_os_src}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE LayoutVisualizer Qt5::Widgets "-framework CoreFoundation" "-framework Cocoa")

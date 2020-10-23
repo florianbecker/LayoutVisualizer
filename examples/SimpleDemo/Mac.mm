@@ -63,9 +63,8 @@ namespace vx {
   MacExtras::MacExtras( QObject *_parent )
     : QObject( _parent ) {
 
-    [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification" object:nil queue:nil usingBlock: ^ ( NSNotification * _note ) {
+    [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"AppleInterfaceThemeChangedNotification" object:nil queue:nil usingBlock: ^ ( [[maybe_unused]] NSNotification *_note ) {
 
-      Q_UNUSED( _note );
       if ( _parent ) {
 
         QEvent event( QEvent::StyleChange );
