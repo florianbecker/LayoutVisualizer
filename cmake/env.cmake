@@ -32,7 +32,7 @@
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 # Enable Qt build - use Qt5 or Qt6
-set(QtVERSION Qt6)
+set(QtVERSION Qt5)
 
 # Pathes
 if(NOT DEV)

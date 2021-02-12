@@ -49,8 +49,7 @@ namespace vx {
   const QColor secondLayerBaseColor = QColor( 255, 0, 0 );
 #endif
 
-  constexpr int darker = 100; // #1
-  constexpr int verticalLayoutSpacing = 6;
+  constexpr int darker = 100;
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
     : QObject( _parent ) {}
@@ -78,18 +77,20 @@ namespace vx {
   void LayoutVisualizer::recrusiveEventFilter( const QWidget *_widget ) {
 
     if ( !_widget->layout() ) {
+
       return;
     }
 
     for ( auto x = 0; x < _widget->layout()->count(); ++x ) {
 
       QLayoutItem *item = _widget->layout()->itemAt( x );
-
       if ( !item ) {
+
         continue;
       }
 
       if ( item->widget() && item->widget()->layout() ) {
+
         item->widget()->installEventFilter( new LayoutVisualizer( this ) );
       }
     }
@@ -175,7 +176,8 @@ namespace vx {
         }
         if ( horizontalSpacing == -1 && _layout->parentWidget() ) {
 
-          horizontalSpacing = verticalSpacing = verticalLayoutSpacing;  // #1
+          horizontalSpacing = _layout->parentWidget()->style()->layoutSpacing( QSizePolicy::DefaultType, QSizePolicy::Label, Qt::Horizontal );
+          verticalSpacing = _layout->parentWidget()->style()->layoutSpacing( QSizePolicy::DefaultType, QSizePolicy::Label, Qt::Vertical );
         }
       }
 
