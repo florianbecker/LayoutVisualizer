@@ -24,9 +24,9 @@ jobs:
           ubuntu-20.04-clang-11,
           windows-2016-msvc2017,
           windows-2019-msvc2019,
-          macos-10.15-xcode-11,
           macos-10.15-xcode-11.4,
           macos-10.15-xcode-12,
+          macos-10.15-xcode-12.4,
           macos-11.0-x86_64
         ]
         config: [Debug, Release]
@@ -34,78 +34,78 @@ jobs:
           - name: ubuntu-18.04-gcc-9
             os: ubuntu-18.04
             compiler: gcc
-            version: "9"
+            version: 9
 
           - name: ubuntu-20.04-gcc-9
             os: ubuntu-20.04
             compiler: gcc
-            version: "9"
+            version: 9
 
           - name: ubuntu-20.04-gcc-10
             os: ubuntu-20.04
             compiler: gcc
-            version: "10"
+            version: 10
 
           - name: ubuntu-20.04-clang-8
             os: ubuntu-20.04
             compiler: clang
-            version: "8"
+            version: 8
 
           - name: ubuntu-20.04-clang-9
             os: ubuntu-20.04
             compiler: clang
-            version: "9"
+            version: 9
 
           - name: ubuntu-20.04-clang-10
             os: ubuntu-20.04
             compiler: clang
-            version: "10"
+            version: 10
 
           - name: ubuntu-20.04-clang-11
             os: ubuntu-20.04
             compiler: clang
-            version: "11"
+            version: 11
 
           - name: windows-2016-msvc2017
             os: windows-2016
             compiler: cl
-            version: "Visual Studio 15 2017 Win64"
-            version2: "2017"
-            qtversion: "5.12.9"
+            version: Visual Studio 15 2017 Win64
+            version2: 2017
+            qtversion: 5.12.9
 
           - name: windows-2019-msvc2019
             os: windows-2019
             compiler: cl
-            version: "Visual Studio 16 2019"
-            version2: "2019"
-            qtversion: "5.15.1"
-
-          - name: macOS-10.15-xcode-11
-            os: macOS-10.15
-            compiler: xcode
-            version: "11"
+            version: Visual Studio 16 2019
+            version2: 2019
+            qtversion: 5.15.1
 
           - name: macOS-10.15-xcode-11.4
             os: macOS-10.15
             compiler: xcode
-            version: "11.4"
+            version: 11.4
 
           - name: macOS-10.15-xcode-12
             os: macOS-10.15
             compiler: xcode
-            version: "12"
+            version: 12
+
+          - name: macOS-10.15-xcode-12
+            os: macOS-10.15
+            compiler: xcode
+            version: 12.4
 
           - name: macos-11.0-x86_64
             os: macos-11.0
             compiler: xcode
-            version: "12.2"
-            cmake: "-DCMAKE_OSX_ARCHITECTURES=x86_64"
+            version: 12.2
+            cmake: -DCMAKE_OSX_ARCHITECTURES=x86_64
 
 #          - name: macos-11.0-arm64
 #            os: macos-11.0
 #            compiler: xcode
-#            version: "12.2"
-#            cmake: "-DCMAKE_OSX_ARCHITECTURES=arm64"
+#            version: 12.2
+#            cmake: -DCMAKE_OSX_ARCHITECTURES=arm64
 
     steps:
       - uses: actions/checkout@v2
