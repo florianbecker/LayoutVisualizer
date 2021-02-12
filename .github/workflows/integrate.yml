@@ -22,6 +22,7 @@ jobs:
           ubuntu-20.04-clang-9,
           ubuntu-20.04-clang-10,
           ubuntu-20.04-clang-11,
+          ubuntu-20.04-clang-12,
           windows-2016-msvc2017,
           windows-2019-msvc2019,
           macos-10.15-xcode-11.4,
@@ -66,6 +67,11 @@ jobs:
             compiler: clang
             version: 11
 
+          - name: ubuntu-20.04-clang-12
+            os: ubuntu-20.04
+            compiler: clang
+            version: 12
+
           - name: windows-2016-msvc2017
             os: windows-2016
             compiler: cl
@@ -78,20 +84,20 @@ jobs:
             compiler: cl
             version: Visual Studio 16 2019
             version2: 2019
-            qtversion: 5.15.1
+            qtversion: 5.15.2
 
-          - name: macOS-10.15-xcode-11.4
-            os: macOS-10.15
+          - name: macos-10.15-xcode-11.4
+            os: macos-10.15
             compiler: xcode
             version: 11.4
 
-          - name: macOS-10.15-xcode-12
-            os: macOS-10.15
+          - name: macos-10.15-xcode-12
+            os: macos-10.15
             compiler: xcode
             version: 12
 
-          - name: macOS-10.15-xcode-12.4
-            os: macOS-10.15
+          - name: macos-10.15-xcode-12.4
+            os: macos-10.15
             compiler: xcode
             version: 12.4
 
@@ -117,6 +123,11 @@ jobs:
 
             if [ "${{matrix.compiler}}" = "clang" ] && [ "${{matrix.version}}" = "11" ]; then
               sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main"
+              sudo apt-get update
+            fi
+
+            if [ "${{matrix.compiler}}" = "clang" ] && [ "${{matrix.version}}" = "12" ]; then
+              sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
               sudo apt-get update
             fi
 
@@ -161,10 +172,9 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc${{matrix.version2}}_64'
           install-deps: 'true'
-          mirror: 'http://mirrors.ocf.berkeley.edu/qt/'
           cached: 'false'
-          aqtversion: '==0.9.7'
-          py7zrversion: '==0.10.1'
+          aqtversion: '==0.11.1'
+          py7zrversion: '==0.11.3'
           extra: '--external 7z'
 
       - name: Dependencies (Windows)
