@@ -90,7 +90,7 @@ jobs:
             compiler: xcode
             version: 12
 
-          - name: macOS-10.15-xcode-12
+          - name: macOS-10.15-xcode-12.4
             os: macOS-10.15
             compiler: xcode
             version: 12.4
