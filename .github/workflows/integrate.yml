@@ -161,7 +161,7 @@ jobs:
               echo "CC=clang" >> $GITHUB_ENV
               echo "CXX=clang++" >> $GITHUB_ENV
             fi
-            echo "Qt5_DIR=/usr/local/opt/qt/lib/cmake" >> $GITHUB_ENV
+            echo "Qt5_DIR=/usr/local/opt/qt@5/lib/cmake" >> $GITHUB_ENV
 
       - name: Install Qt
         if: runner.os == 'Windows'
