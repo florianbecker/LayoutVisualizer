@@ -1,4 +1,6 @@
 # LayoutVisualizer
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflorianbecker%2FLayoutVisualizer.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fflorianbecker%2FLayoutVisualizer?ref=badge_shield)
+
 Layout Visualizer for Qt and Tools for Ui debugging
 ## SimpleDemo
 <img src="workdata/simple.png" alt="macOS light theme" width="444" height="504"/><img src="workdata/simple_dark.png" alt="macOS dark theme" width="444" height="504"/>
@@ -22,3 +24,7 @@ You can switch from Qt5 to Qt6 - default: Qt5
 # Enable Qt build - use Qt5 or Qt6
 set(QtVERSION Qt6)
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflorianbecker%2FLayoutVisualizer.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fflorianbecker%2FLayoutVisualizer?ref=badge_large)
