@@ -18,6 +18,7 @@ jobs:
           ubuntu-18.04-gcc-9,
           ubuntu-20.04-gcc-9,
           ubuntu-20.04-gcc-10,
+          ubuntu-20.04-gcc-11,
           ubuntu-20.04-clang-8,
           ubuntu-20.04-clang-9,
           ubuntu-20.04-clang-10,
@@ -25,6 +26,7 @@ jobs:
           ubuntu-20.04-clang-12,
           windows-2016-msvc2017,
           windows-2019-msvc2019,
+          windows-2022-msvc2022,
           macos-10.15-xcode-11.4,
           macos-10.15-xcode-12,
           macos-10.15-xcode-12.4,
@@ -46,6 +48,11 @@ jobs:
             os: ubuntu-20.04
             compiler: gcc
             version: 10
+
+          - name: ubuntu-20.04-gcc-11
+            os: ubuntu-20.04
+            compiler: gcc
+            version: 11
 
           - name: ubuntu-20.04-clang-8
             os: ubuntu-20.04
@@ -84,6 +91,13 @@ jobs:
             compiler: cl
             version: Visual Studio 16 2019
             version2: 2019
+            qtversion: 5.15.2
+
+          - name: windows-2022-msvc2022
+            os: windows-2022
+            compiler: cl
+            version: Visual Studio 17 2022
+            version2: 2022
             qtversion: 5.15.2
 
           - name: macos-10.15-xcode-11.4
@@ -129,6 +143,10 @@ jobs:
             if [ "${{matrix.compiler}}" = "clang" ] && [ "${{matrix.version}}" = "12" ]; then
               sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
               sudo apt-get update
+            fi
+            if [ "${{matrix.compiler}}" = "gcc" ] && [ "${{matrix.version}}" = "11" ]; then
+              sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+              sudo apt update
             fi
 
             sudo apt-get install -y ninja-build

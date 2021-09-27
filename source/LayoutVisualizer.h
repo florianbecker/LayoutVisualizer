@@ -32,6 +32,7 @@
 
 /* qt header */
 #include <QObject>
+#include <QPoint>
 
 /* qt class */
 class QPainter;
@@ -46,10 +47,18 @@ namespace vx {
   public:
     explicit LayoutVisualizer( QObject *_parent );
 
+    ~LayoutVisualizer() override;
+
   protected:
     bool eventFilter( QObject *_object, QEvent *_event ) override;
 
+    void timerEvent( QTimerEvent *_event ) override;
+
   private:
+    int m_timerId = 0;
+
+    QPoint m_currentPosition = QPoint( -1, -1 );
+
     void recrusiveEventFilter( const QWidget *_widget );
 
     void drawLayout( QPainter *_painter,

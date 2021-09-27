@@ -42,7 +42,7 @@ int main( int argc, char *argv[] ) {
   QApplication app( argc, argv );
   QApplication::setApplicationName( QStringLiteral( "SimpleDemo" ) );
   QApplication::setApplicationVersion( QStringLiteral( "0.0.1" ) );
-  QApplication::setOrganizationName( QStringLiteral( "VX Apps" ) );
+  QApplication::setOrganizationName( QStringLiteral( "VX APPS" ) );
   QApplication::setOrganizationDomain( QStringLiteral( "https://vxapps.com"  ) );
 
   vx::SimpleDemo w;

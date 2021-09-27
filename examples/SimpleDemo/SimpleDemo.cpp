@@ -44,68 +44,68 @@ namespace vx {
 
   SimpleDemo::SimpleDemo( QWidget *_parent ) : QWidget( _parent ) {
 
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    auto *layout = new QVBoxLayout( this );
 
-    QPushButton *btn1 = new QPushButton( this );
+    auto *btn1 = new QPushButton( this );
     btn1->setText( tr( "Push Me" ) );
     layout->addWidget( btn1 );
 
-    QPushButton *btn2 = new QPushButton( this );
+    auto *btn2 = new QPushButton( this );
     btn2->setText( tr( "Push Me" ) );
     layout->addWidget( btn2 );
 
-    QHBoxLayout *hLayout = new QHBoxLayout;
+    auto *hLayout = new QHBoxLayout;
 
-    QPushButton *btn3 = new QPushButton( this );
+    auto *btn3 = new QPushButton( this );
     btn3->setText( tr( "Push Me" ) );
     hLayout->addWidget( btn3 );
 
-    QPushButton *btn4 = new QPushButton( this );
+    auto *btn4 = new QPushButton( this );
     btn4->setText( tr( "Push Me" ) );
     hLayout->addWidget( btn4 );
     layout->addLayout( hLayout );
 
-    QHBoxLayout *h2Layout = new QHBoxLayout;
+    auto *h2Layout = new QHBoxLayout;
 
-    QPushButton *btn5 = new QPushButton( this );
+    auto *btn5 = new QPushButton( this );
     btn5->setText( tr( "Push Me" ) );
     h2Layout->addWidget( btn5 );
 
-    QPushButton *btn6 = new QPushButton( this );
+    auto *btn6 = new QPushButton( this );
     btn6->setText( tr( "Push Me" ) );
     h2Layout->addWidget( btn6 );
     layout->addLayout( h2Layout );
 
-    QHBoxLayout *h3Layout = new QHBoxLayout;
+    auto *h3Layout = new QHBoxLayout;
 
-    QPushButton *btn7 = new QPushButton( this );
+    auto *btn7 = new QPushButton( this );
     btn7->setText( tr( "Push Me" ) );
     h3Layout->addWidget( btn7 );
 
-    QPushButton *btn8 = new QPushButton( this );
+    auto *btn8 = new QPushButton( this );
     btn8->setText( tr( "Push Me" ) );
     h3Layout->addWidget( btn8 );
 
-    QVBoxLayout *vLayout = new QVBoxLayout;
+    auto *vLayout = new QVBoxLayout;
 
-    QPushButton *btn9 = new QPushButton( this );
+    auto *btn9 = new QPushButton( this );
     btn9->setText( tr( "Push Me" ) );
     vLayout->addWidget( btn9 );
 
-    QPushButton *btn10 = new QPushButton( this );
+    auto *btn10 = new QPushButton( this );
     btn10->setText( tr( "Push Me" ) );
     vLayout->addWidget( btn10 );
     h3Layout->addLayout( vLayout );
     layout->addLayout( h3Layout );
 
-    QWidget *widget = new QWidget( this );
-    QVBoxLayout *vLayout2 = new QVBoxLayout( widget );
+    auto *widget = new QWidget( this );
+    auto *vLayout2 = new QVBoxLayout( widget );
 
-    QPushButton *btn11 = new QPushButton( this );
+    auto *btn11 = new QPushButton( this );
     btn11->setText( tr( "Push Me" ) );
     vLayout2->addWidget( btn11 );
 
-    QPushButton *btn12 = new QPushButton( this );
+    auto *btn12 = new QPushButton( this );
     btn12->setText( tr( "Push Me" ) );
     vLayout2->addWidget( btn12 );
     layout->addWidget( widget );

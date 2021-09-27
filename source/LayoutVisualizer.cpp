@@ -29,12 +29,13 @@
  */
 
 /* qt header */
+#include <QDebug>
 #include <QEvent>
 #include <QFormLayout>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QStyle>
 #include <QWidget>
-#include <QDebug>
 
 /* local header */
 #include "LayoutVisualizer.h"
@@ -49,14 +50,28 @@ namespace vx {
   const QColor secondLayerBaseColor = QColor( 255, 0, 0 );
 #endif
 
+  constexpr int resetInterval = 200;
+
   constexpr int darker = 100;
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
-    : QObject( _parent ) {}
+    : QObject( _parent ) {
+
+    m_timerId = startTimer( resetInterval );
+  }
+
+  LayoutVisualizer::~LayoutVisualizer() {
+
+    if ( m_timerId > 0 ) {
+
+        killTimer( m_timerId );
+      }
+  }
 
   bool LayoutVisualizer::eventFilter( QObject *_object, QEvent *_event ) {
 
     QWidget *widget = qobject_cast<QWidget *>( _object );
+    widget->setMouseTracking( true );
     if ( widget ) {
 
       if ( _event->type() == QEvent::LayoutRequest ) {
@@ -64,7 +79,13 @@ namespace vx {
         widget->update();
         recrusiveEventFilter( widget );
       }
-      if ( _event->type() == QEvent::Paint ) {
+      else if ( _event->type() == QEvent::MouseButtonPress || _event->type() == QEvent::MouseMove ) {
+
+        const auto *event = dynamic_cast<QMouseEvent *>( _event );
+        m_currentPosition = event->pos();
+        widget->update();
+      }
+      else if ( _event->type() == QEvent::Paint ) {
 
         QPainter painter( widget );
         drawLayout( &painter, widget->layout() );
@@ -72,6 +93,14 @@ namespace vx {
       }
     }
     return false;
+  }
+
+  void LayoutVisualizer::timerEvent( QTimerEvent *_event ) {
+
+    if ( _event->timerId() == m_timerId ) {
+
+      m_currentPosition = QPoint( -1, -1 );
+    }
   }
 
   void LayoutVisualizer::recrusiveEventFilter( const QWidget *_widget ) {
@@ -120,10 +149,16 @@ namespace vx {
       currentColor = currentColor.darker( darker * _layer );
     }
 
+    Qt::BrushStyle currentStyle = Qt::BDiagPattern;
+    if ( _layout->contentsRect().marginsAdded( _layout->contentsMargins() ).contains( m_currentPosition ) ) {
+
+      currentStyle = Qt::Dense4Pattern;
+    }
+
     _painter->setPen( currentColor );
     _painter->drawRect( _layout->contentsRect().marginsAdded( _layout->contentsMargins() ) );
 
-    QBrush brush( currentColor, Qt::BDiagPattern );
+    QBrush brush( currentColor, currentStyle );
     _painter->fillRect( _layout->contentsRect().marginsAdded( _layout->contentsMargins() ), brush );
 
     /* if not erase inside */

@@ -39,7 +39,7 @@ int main( int argc, char **argv ) {
   QGuiApplication app( argc, argv );
   QGuiApplication::setApplicationName( QStringLiteral( "RasterWindow" ) );
   QGuiApplication::setApplicationVersion( QStringLiteral( "0.0.1" ) );
-  QGuiApplication::setOrganizationName( QStringLiteral( "VX Apps" ) );
+  QGuiApplication::setOrganizationName( QStringLiteral( "VX APPS" ) );
   QGuiApplication::setOrganizationDomain( QStringLiteral( "https://vxapps.com"  ) );
 
   vx::RasterWindow window;
