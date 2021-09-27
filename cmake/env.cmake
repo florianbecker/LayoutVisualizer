@@ -28,8 +28,8 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# Debugging of build steps
-set(CMAKE_VERBOSE_MAKEFILE OFF)
+# for debugging of build steps
+option(CMAKE_VERBOSE_MAKEFILE "Show the complete build commands" OFF)
 
 # Enable Qt build - use Qt5 or Qt6
 set(QtVERSION Qt5)
