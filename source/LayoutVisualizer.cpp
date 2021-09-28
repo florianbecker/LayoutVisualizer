@@ -64,11 +64,12 @@ namespace vx {
 
     if ( m_timerId > 0 ) {
 
-        killTimer( m_timerId );
-      }
+      killTimer( m_timerId );
+    }
   }
 
-  bool LayoutVisualizer::eventFilter( QObject *_object, QEvent *_event ) {
+  bool LayoutVisualizer::eventFilter( QObject *_object,
+                                      QEvent *_event ) {
 
     QWidget *widget = qobject_cast<QWidget *>( _object );
     widget->setMouseTracking( true );
@@ -77,7 +78,7 @@ namespace vx {
       if ( _event->type() == QEvent::LayoutRequest ) {
 
         widget->update();
-        recrusiveEventFilter( widget );
+        recrusiveEventHandle( widget );
       }
       else if ( _event->type() == QEvent::MouseButtonPress || _event->type() == QEvent::MouseMove ) {
 
@@ -103,7 +104,7 @@ namespace vx {
     }
   }
 
-  void LayoutVisualizer::recrusiveEventFilter( const QWidget *_widget ) {
+  void LayoutVisualizer::recrusiveEventHandle( const QWidget *_widget ) {
 
     if ( !_widget->layout() ) {
 

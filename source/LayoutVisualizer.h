@@ -38,29 +38,70 @@
 class QPainter;
 class QLayout;
 
+/**
+ * @brief vx (VX APPS) namespace.
+ */
 namespace vx {
 
+  /**
+   * @brief The LayoutVisualizer class for visualizing layouts..
+   * @author Florian Becker <fb\@vxapps.com> (VX APPS)
+   */
   class LayoutVisualizer : public QObject {
 
     Q_OBJECT
 
   public:
+    /**
+     * @brief Default constructor for SimpleDemo.
+     * @param _parent   Parent object.
+     */
     explicit LayoutVisualizer( QObject *_parent );
 
+    /**
+     * @brief Default destructor for SimpleDemo.
+     */
     ~LayoutVisualizer() override;
 
   protected:
-    bool eventFilter( QObject *_object, QEvent *_event ) override;
+    /**
+     * @brief Reimplementation of eventFilter.
+     * @param _object   Object for filtering the events.
+     * @param _event   Incoming events.
+     * @return True for recognized event - otherwise false.
+     */
+    bool eventFilter( QObject *_object,
+                      QEvent *_event ) override;
 
+    /**
+     * @brief Reimplementation of timerEvent.
+     * @param _event   Incoming events.
+     */
     void timerEvent( QTimerEvent *_event ) override;
 
   private:
+    /**
+     * @brief Member for timer id.
+     */
     int m_timerId = 0;
 
+    /**
+     * @brief Member for current cursor position.
+     */
     QPoint m_currentPosition = QPoint( -1, -1 );
 
-    void recrusiveEventFilter( const QWidget *_widget );
+    /**
+     * @brief Recrusive event handler for widget.
+     * @param _widget   Widget to visualize the layouts recrusivly.
+     */
+    void recrusiveEventHandle( const QWidget *_widget );
 
+    /**
+     * @brief Draw the visualized layouts.
+     * @param _painter   Painter to draw on.
+     * @param _layout   Layout to visualize.
+     * @param _layer   Deepth of layout.
+     */
     void drawLayout( QPainter *_painter,
                      QLayout *_layout,
                      int _layer = 0 );

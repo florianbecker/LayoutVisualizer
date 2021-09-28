@@ -33,13 +33,24 @@
 /* qt header */
 #include <QWidget>
 
+/**
+ * @brief vx (VX APPS) namespace.
+ */
 namespace vx {
 
+  /**
+   * @brief The SimpleDemo class for demonstrating.
+   * @author Florian Becker <fb\@vxapps.com> (VX APPS)
+   */
   class SimpleDemo : public QWidget {
 
     Q_OBJECT
 
   public:
+    /**
+     * @brief Default constructor for SimpleDemo.
+     * @param _parent   Parent widget.
+     */
     explicit SimpleDemo( QWidget *_parent = nullptr );
   };
 }

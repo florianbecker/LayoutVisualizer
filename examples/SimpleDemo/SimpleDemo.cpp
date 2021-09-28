@@ -42,7 +42,8 @@
 
 namespace vx {
 
-  SimpleDemo::SimpleDemo( QWidget *_parent ) : QWidget( _parent ) {
+  SimpleDemo::SimpleDemo( QWidget *_parent )
+    : QWidget( _parent ) {
 
     auto *layout = new QVBoxLayout( this );
 

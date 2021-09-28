@@ -33,28 +33,66 @@
 /* qt header */
 #include <QWindow>
 
+/**
+ * @brief vx (VX APPS) namespace.
+ */
 namespace vx {
 
+  /**
+   * @brief The RasterWindow class for drawing directly on window.
+   * @author Florian Becker <fb\@vxapps.com> (VX APPS)
+   */
   class RasterWindow : public QWindow {
 
     Q_OBJECT
 
   public:
+    /**
+     * @brief Default constructor for RasterWindow.
+     * @param _parent   Parent widget.
+     */
     explicit RasterWindow( QWindow *_parent = nullptr );
 
   protected:
+    /**
+     * @brief Reimplementation of event.
+     * @param _event   Incoming events.
+     * @return True for recognized event - otherwise false.
+     */
     bool event( QEvent *_event ) override;
 
+    /**
+     * @brief Reimplementation of resizeEvent.
+     * @param _event   Incoming events.
+     */
     void resizeEvent( QResizeEvent *_event ) override;
+
+    /**
+     * @brief Reimplementation of exposeEvent.
+     * @param _event   Incoming events.
+     */
     void exposeEvent( QExposeEvent *_event ) override;
 
   private:
+    /**
+     * @brief Member for backing store.
+     */
     QBackingStore *m_backingStore;
 
+    /**
+     * @brief Render outside of paintEvent.
+     * @param _painter   Painter to draw on.
+     */
     virtual void render( QPainter *_painter );
 
+    /**
+     * @brief Render now and outside of paintEvent.
+     */
     void renderNow();
 
+    /**
+     * @brief Render later and outside of paintEvent.
+     */
     void renderLater();
   };
 }
