@@ -31,9 +31,6 @@
 # for debugging of build steps
 option(CMAKE_VERBOSE_MAKEFILE "Show the complete build commands" OFF)
 
-# Enable Qt build - use Qt5 or Qt6
-set(QtVERSION Qt5)
-
 # Pathes
 if(NOT DEV)
   get_filename_component(DEV "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)

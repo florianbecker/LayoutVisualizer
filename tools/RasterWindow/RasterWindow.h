@@ -59,19 +59,19 @@ namespace vx {
      * @param _event   Incoming events.
      * @return True for recognized event - otherwise false.
      */
-    bool event( QEvent *_event ) override;
+    bool event( QEvent *_event ) final;
 
     /**
      * @brief Reimplementation of resizeEvent.
      * @param _event   Incoming events.
      */
-    void resizeEvent( QResizeEvent *_event ) override;
+    void resizeEvent( QResizeEvent *_event ) final;
 
     /**
      * @brief Reimplementation of exposeEvent.
      * @param _event   Incoming events.
      */
-    void exposeEvent( QExposeEvent *_event ) override;
+    void exposeEvent( QExposeEvent *_event ) final;
 
   private:
     /**

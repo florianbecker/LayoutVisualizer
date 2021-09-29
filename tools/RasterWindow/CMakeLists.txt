@@ -40,4 +40,4 @@ add_executable(${PROJECT_NAME}
   RasterWindow.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${QtVERSION}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

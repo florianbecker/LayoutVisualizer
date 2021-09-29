@@ -49,4 +49,4 @@ if(APPLE AND NOT IOS)
   set(${PROJECT_NAME}_os_libs ${COREFOUNDATION} ${COCOA})
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE LayoutVisualizer ${QtVERSION}::Widgets ${${PROJECT_NAME}_os_libs})
+target_link_libraries(${PROJECT_NAME} PRIVATE LayoutVisualizer Qt${QT_VERSION_MAJOR}::Widgets ${${PROJECT_NAME}_os_libs})

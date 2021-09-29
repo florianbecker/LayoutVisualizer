@@ -43,4 +43,4 @@ add_library(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${QtVERSION}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

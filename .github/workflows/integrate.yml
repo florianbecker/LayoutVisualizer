@@ -137,18 +137,16 @@ jobs:
 
             if [ "${{matrix.compiler}}" = "clang" ] && [ "${{matrix.version}}" = "11" ]; then
               sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main"
-              sudo apt-get update
             fi
 
             if [ "${{matrix.compiler}}" = "clang" ] && [ "${{matrix.version}}" = "12" ]; then
               sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
-              sudo apt-get update
             fi
             if [ "${{matrix.compiler}}" = "gcc" ] && [ "${{matrix.version}}" = "11" ]; then
               sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-              sudo apt update
             fi
 
+            sudo apt update
             sudo apt-get install -y ninja-build
             sudo apt-get install -y qtbase5-dev
 
