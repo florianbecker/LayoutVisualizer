@@ -12,6 +12,6 @@ Inside cmake/env.cmake you will find some user-defined build variables for parti
 ### Debugging
 You can log the verbose build output.
 ```cmake
-# Debugging of build steps
-set(CMAKE_VERBOSE_MAKEFILE ON)
+# for debugging of build steps
+option(CMAKE_VERBOSE_MAKEFILE "Show the complete build commands" OFF)
 ```
