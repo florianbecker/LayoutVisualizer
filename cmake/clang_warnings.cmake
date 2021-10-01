@@ -40,3 +40,9 @@ set(WARNING_FLAGS
   # Moc
   -Wno-extra-semi-stmt
 )
+
+set(WARNING_FLAGS_VERSION13
+
+  # Moc
+  -Wno-reserved-identifier
+)
