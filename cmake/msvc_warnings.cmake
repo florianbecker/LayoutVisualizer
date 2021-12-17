@@ -1,19 +1,35 @@
 #
-# Copyright (C) 10/01/2020 VX STATS <sales@vxstats.com>
+# Copyright (c) 2020 Florian Becker <fb@vxapps.com> (VX APPS).
+# All rights reserved.
 #
-# This document is property of VX STATS. It is strictly prohibited
-# to modify, sell or publish it in any way. In case you have access
-# to this document, you are obligated to ensure its nondisclosure.
-# Noncompliances will be prosecuted.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
 #
-# Diese Datei ist Eigentum der VX STATS. Jegliche Änderung, Verkauf
-# oder andere Verbreitung und Veröffentlichung ist strikt untersagt.
-# Falls Sie Zugang zu dieser Datei haben, sind Sie verpflichtet,
-# alles in Ihrer Macht stehende für deren Geheimhaltung zu tun.
-# Zuwiderhandlungen werden strafrechtlich verfolgt.
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+#
+# 3. Neither the name of the copyright holder nor the names of its
+#    contributors may be used to endorse or promote products derived from
+#    this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
 set(WARNING_FLAGS
   # operator: deprecated between enumerations of different types
   /wd5054
+  /Wv:19.21
 )
