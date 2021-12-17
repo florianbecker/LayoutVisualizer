@@ -44,7 +44,7 @@ class QLayout;
 namespace vx {
 
   /**
-   * @brief The LayoutVisualizer class for visualizing layouts..
+   * @brief The LayoutVisualizer class for visualizing layouts.
    * @author Florian Becker <fb\@vxapps.com> (VX APPS)
    */
   class LayoutVisualizer : public QObject {
@@ -53,15 +53,10 @@ namespace vx {
 
   public:
     /**
-     * @brief Default constructor for SimpleDemo.
+     * @brief Default constructor for LayoutVisualizer.
      * @param _parent   Parent object.
      */
     explicit LayoutVisualizer( QObject *_parent );
-
-    /**
-     * @brief Default destructor for SimpleDemo.
-     */
-    ~LayoutVisualizer() override;
 
   protected:
     /**

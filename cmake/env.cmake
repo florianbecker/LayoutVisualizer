@@ -31,19 +31,49 @@
 # for debugging of build steps
 option(CMAKE_VERBOSE_MAKEFILE "Show the complete build commands" OFF)
 
-# Pathes
-if(NOT DEV)
-  get_filename_component(DEV "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+# General
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
+
+# CMake
+set(CMAKE ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# Project
+#set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
+
+# Force C++17 or C++20 if available
+include(CheckCXXCompilerFlag)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  check_cxx_compiler_flag(/std:c++20 HAVE_FLAG_STD_CXX20)
+else()
+  check_cxx_compiler_flag(-std=c++20 HAVE_FLAG_STD_CXX20)
+  check_cxx_compiler_flag(-std=c++2a HAVE_FLAG_STD_CXX2A)
 endif()
 
-set(CMAKE ${DEV}/cmake)
+# Clang-8 have some issues, that are not repairable
+if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "9")
+  set(HAVE_FLAG_STD_CXX20 0)
+  set(HAVE_FLAG_STD_CXX2A 0)
+endif()
 
-# Force C++17
-set(CMAKE_CXX_STANDARD 17)
+if(HAVE_FLAG_STD_CXX20 OR HAVE_FLAG_STD_CXX2A)
+  set(CMAKE_CXX_STANDARD 20)
+else()
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# IPO/LTO
+include(CheckIPOSupported)
+check_ipo_supported(RESULT result OUTPUT output)
+if(result)
+  # It's available, set it for all following items
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
+else()
+  message(WARNING "IPO is not supported: ${output}")
+endif()
 
 # Warning flags
 # Case insensitive match
@@ -61,7 +91,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
     endforeach()
   endif()
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror -Weffc++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
 
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -72,7 +102,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
   endforeach()
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -Weffc++ -Wpedantic")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
 
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

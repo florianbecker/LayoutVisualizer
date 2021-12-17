@@ -107,7 +107,7 @@ jobs:
           - name: macos-10.15-xcode-12
             os: macos-10.15
             compiler: xcode
-            version: 12
+            version: 12.0
 
           - name: macos-10.15-xcode-12.4
             os: macos-10.15
@@ -120,11 +120,11 @@ jobs:
             version: 12.5
             cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64
 
-#          - name: macos-11.0-arm64
+#          - name: macos-11.0-xcode-12.5-arm64
 #            os: macos-11.0
 #            compiler: xcode
-#            version: 12.2
-#            cmake: -DCMAKE_OSX_ARCHITECTURES=arm64
+#            version: 12.5
+#            cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=arm64
 
           - name: macos-11.0-xcode-13-x86_64
             os: macos-11.0
@@ -154,15 +154,15 @@ jobs:
             fi
 
             sudo apt update
-            sudo apt-get install -y ninja-build
-            sudo apt-get install -y qtbase5-dev
+            sudo apt install -y ninja-build
+            sudo apt install -y qtbase5-dev
 
             if [ "${{matrix.compiler}}" = "gcc" ]; then
-              sudo apt-get install -y g++-${{matrix.version}}
+              sudo apt install -y g++-${{matrix.version}}
               echo "CC=gcc-${{matrix.version}}" >> $GITHUB_ENV
               echo "CXX=g++-${{matrix.version}}" >> $GITHUB_ENV
             else
-              sudo apt-get install -y clang-${{matrix.version}}
+              sudo apt install -y clang-${{matrix.version}}
               echo "CC=clang-${{matrix.version}}" >> $GITHUB_ENV
               echo "CXX=clang++-${{matrix.version}}" >> $GITHUB_ENV
             fi
@@ -228,12 +228,12 @@ jobs:
       - name: Configure CMake (Unix)
         if: runner.os == 'macOS' || runner.os == 'Linux'
         working-directory: ${{runner.workspace}}/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.config}} ${{matrix.cmake}}
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}} ${{matrix.cmake}}
 
       - name: Configure CMake (Windows)
         if: runner.os == 'Windows'
         working-directory: ${{runner.workspace}}/build
-        run: cmake $Env:GITHUB_WORKSPACE -G"${{matrix.version}}" -DCMAKE_BUILD_TYPE=${{matrix.config}}
+        run: cmake $Env:GITHUB_WORKSPACE -G"${{matrix.version}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}}
 
       - name: Build
         working-directory: ${{runner.workspace}}/build

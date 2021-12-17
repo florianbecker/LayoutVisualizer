@@ -53,6 +53,17 @@ namespace vx {
      */
     explicit RasterWindow( QWindow *_parent = nullptr );
 
+    /**
+     * @brief Delete copy constructor.
+     */
+    RasterWindow( const RasterWindow & ) = delete;
+
+    /**
+     * @brief Delete copy assign.
+     * @return Nothing.
+     */
+    RasterWindow &operator=( const RasterWindow & ) = delete;
+
   protected:
     /**
      * @brief Reimplementation of event.
@@ -77,7 +88,7 @@ namespace vx {
     /**
      * @brief Member for backing store.
      */
-    QBackingStore *m_backingStore;
+    QBackingStore *m_backingStore = nullptr;
 
     /**
      * @brief Render outside of paintEvent.

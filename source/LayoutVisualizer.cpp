@@ -28,6 +28,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* stl header */
+#include <chrono>
+
 /* qt header */
 #include <QDebug>
 #include <QEvent>
@@ -40,6 +43,9 @@
 /* local header */
 #include "LayoutVisualizer.h"
 
+/* chrono_literals */
+using namespace std::literals::chrono_literals;
+
 namespace vx {
 
 #if QT_VERSION >= QT_VERSION_CHECK( 5, 13, 0 )
@@ -50,7 +56,7 @@ namespace vx {
   const QColor secondLayerBaseColor = QColor( 255, 0, 0 );
 #endif
 
-  constexpr int resetInterval = 200;
+  constexpr auto resetInterval = 200ms;
 
   constexpr int darker = 100;
 
@@ -60,21 +66,12 @@ namespace vx {
     m_timerId = startTimer( resetInterval );
   }
 
-  LayoutVisualizer::~LayoutVisualizer() {
-
-    if ( m_timerId > 0 ) {
-
-      killTimer( m_timerId );
-    }
-  }
-
   bool LayoutVisualizer::eventFilter( QObject *_object,
                                       QEvent *_event ) {
 
-    QWidget *widget = qobject_cast<QWidget *>( _object );
-    widget->setMouseTracking( true );
-    if ( widget ) {
+    if ( auto *widget = qobject_cast<QWidget *>( _object ); widget ) {
 
+      widget->setMouseTracking( true );
       if ( _event->type() == QEvent::LayoutRequest ) {
 
         widget->update();
@@ -183,38 +180,44 @@ namespace vx {
         continue;
       }
 
+      if ( !item->widget() ) {
+
+        continue;
+      }
+
       int horizontalSpacing = _layout->spacing();
       int verticalSpacing = _layout->spacing();
-      if ( item->widget() ) {
 
-        if ( horizontalSpacing == -1 ) {
+      if ( horizontalSpacing == -1 ) {
 
-          const QGridLayout *gridLayout = dynamic_cast<QGridLayout *>( _layout );
-          if ( gridLayout ) {
+        const auto *gridLayout = dynamic_cast<QGridLayout *>( _layout );
+        if ( gridLayout ) {
 
-            horizontalSpacing = gridLayout->horizontalSpacing();
-            verticalSpacing = gridLayout->verticalSpacing();
-          }
+          horizontalSpacing = gridLayout->horizontalSpacing();
+          verticalSpacing = gridLayout->verticalSpacing();
         }
-        if ( horizontalSpacing == -1 ) {
+      }
 
-          const QFormLayout *formLayout = dynamic_cast<QFormLayout *>( _layout );
-          if ( formLayout ) {
+      if ( horizontalSpacing == -1 ) {
 
-            horizontalSpacing = formLayout->horizontalSpacing();
-            verticalSpacing = formLayout->verticalSpacing();
-          }
+        const auto *formLayout = dynamic_cast<QFormLayout *>( _layout );
+        if ( formLayout ) {
+
+          horizontalSpacing = formLayout->horizontalSpacing();
+          verticalSpacing = formLayout->verticalSpacing();
         }
-        if ( horizontalSpacing == -1 && _layout->parentWidget() ) {
+      }
 
-          horizontalSpacing = _layout->parentWidget()->style()->pixelMetric( QStyle::PM_LayoutHorizontalSpacing );
-          verticalSpacing = _layout->parentWidget()->style()->pixelMetric( QStyle::PM_LayoutVerticalSpacing );
-        }
-        if ( horizontalSpacing == -1 && _layout->parentWidget() ) {
+      if ( horizontalSpacing == -1 && _layout->parentWidget() ) {
 
-          horizontalSpacing = _layout->parentWidget()->style()->layoutSpacing( QSizePolicy::DefaultType, QSizePolicy::Label, Qt::Horizontal );
-          verticalSpacing = _layout->parentWidget()->style()->layoutSpacing( QSizePolicy::DefaultType, QSizePolicy::Label, Qt::Vertical );
-        }
+        horizontalSpacing = _layout->parentWidget()->style()->pixelMetric( QStyle::PM_LayoutHorizontalSpacing );
+        verticalSpacing = _layout->parentWidget()->style()->pixelMetric( QStyle::PM_LayoutVerticalSpacing );
+      }
+
+      if ( horizontalSpacing == -1 && _layout->parentWidget() ) {
+
+        horizontalSpacing = _layout->parentWidget()->style()->layoutSpacing( QSizePolicy::DefaultType, QSizePolicy::Label, Qt::Horizontal );
+        verticalSpacing = _layout->parentWidget()->style()->layoutSpacing( QSizePolicy::DefaultType, QSizePolicy::Label, Qt::Vertical );
       }
 
       QRect rect = item->widget()->contentsRect();
