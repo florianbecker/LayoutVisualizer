@@ -39,9 +39,6 @@ add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
 # CMake
 set(CMAKE ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-# Project
-#set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
-
 # Force C++17 or C++20 if available
 include(CheckCXXCompilerFlag)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -112,10 +109,6 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   endif()
 endif()
-
-add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Project modules/variables
 set(CMAKE_MODULE_PATH ${CMAKE}/modules)

@@ -31,6 +31,7 @@
 #pragma once
 
 /* qt header */
+#include <QSharedPointer>
 #include <QWindow>
 
 /**
@@ -52,17 +53,6 @@ namespace vx {
      * @param _parent   Parent widget.
      */
     explicit RasterWindow( QWindow *_parent = nullptr );
-
-    /**
-     * @brief Delete copy constructor.
-     */
-    RasterWindow( const RasterWindow & ) = delete;
-
-    /**
-     * @brief Delete copy assign.
-     * @return Nothing.
-     */
-    RasterWindow &operator=( const RasterWindow & ) = delete;
 
   protected:
     /**
@@ -88,7 +78,7 @@ namespace vx {
     /**
      * @brief Member for backing store.
      */
-    QBackingStore *m_backingStore = nullptr;
+    QSharedPointer<QBackingStore> m_backingStore = {};
 
     /**
      * @brief Render outside of paintEvent.
