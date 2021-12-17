@@ -31,5 +31,4 @@
 set(WARNING_FLAGS
   # operator: deprecated between enumerations of different types
   /wd5054
-  /Wv:19.21
 )

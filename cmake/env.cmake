@@ -29,7 +29,7 @@
 #
 
 # for debugging of build steps
-option(CMAKE_VERBOSE_MAKEFILE "Show the complete build commands" ON)
+option(CMAKE_VERBOSE_MAKEFILE "Show the complete build commands" OFF)
 
 # General
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
