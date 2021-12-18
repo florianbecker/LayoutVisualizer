@@ -29,6 +29,7 @@
 #
 
 set(WARNING_FLAGS
+  # Visual Studio 2019 Qt 5.15
   # operator: deprecated between enumerations of different types
   /wd5054
 )
