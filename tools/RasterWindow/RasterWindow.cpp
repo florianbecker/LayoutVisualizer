@@ -90,7 +90,7 @@ namespace vx {
       return;
     }
 
-    QRect rect( 0, 0, width(), height() );
+    const QRect rect( 0, 0, width(), height() );
     m_backingStore->beginPaint( rect );
 
     QPaintDevice *device = m_backingStore->paintDevice();

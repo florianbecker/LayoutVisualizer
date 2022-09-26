@@ -61,10 +61,8 @@ namespace vx {
   constexpr int darker = 100;
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
-    : QObject( _parent ) {
-
-    m_timerId = startTimer( resetInterval );
-  }
+    : QObject( _parent ),
+      m_timerId( startTimer( resetInterval ) ) {}
 
   bool LayoutVisualizer::eventFilter( QObject *_object,
                                       QEvent *_event ) {
@@ -108,9 +106,9 @@ namespace vx {
       return;
     }
 
-    for ( auto x = 0; x < _widget->layout()->count(); ++x ) {
+    for ( auto pos = 0; pos < _widget->layout()->count(); ++pos ) {
 
-      QLayoutItem *item = _widget->layout()->itemAt( x );
+      QLayoutItem *item = _widget->layout()->itemAt( pos );
       if ( !item ) {
 
         continue;
@@ -156,7 +154,7 @@ namespace vx {
     _painter->setPen( currentColor );
     _painter->drawRect( _layout->contentsRect().marginsAdded( _layout->contentsMargins() ) );
 
-    QBrush brush( currentColor, currentStyle );
+    const QBrush brush( currentColor, currentStyle );
     _painter->fillRect( _layout->contentsRect().marginsAdded( _layout->contentsMargins() ), brush );
 
     /* if not erase inside */
@@ -165,10 +163,10 @@ namespace vx {
     /* endif not erase inside */
     _painter->fillRect( _layout->contentsRect(), brush );
 
-    int layer = _layer + 1;
-    for ( int x = 0; x < _layout->count(); ++x ) {
+    const int layer = _layer + 1;
+    for ( int pos = 0; pos < _layout->count(); ++pos ) {
 
-      QLayoutItem *item = _layout->itemAt( x );
+      QLayoutItem *item = _layout->itemAt( pos );
       if ( !item ) {
 
         continue;
