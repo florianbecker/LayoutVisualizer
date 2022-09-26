@@ -49,7 +49,7 @@ int main( int argc, char **argv ) {
   demo.show();
 
   #ifdef __APPLE__
-  [[maybe_unused]] vx::MacExtras xtra( &w );
+  [[maybe_unused]] vx::MacExtras xtra( &demo );
   #endif
 
   return QApplication::exec();
