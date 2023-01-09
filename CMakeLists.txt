@@ -30,7 +30,16 @@
 
 cmake_minimum_required(VERSION 3.18)
 
-project(LayoutVisualizer VERSION 0.2 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES CXX)
+# Determine if this is built as a subproject (using add_subdirectory)
+# or if it is the master project.
+if(NOT DEFINED LAYOUTVISUALIZER_MASTER_PROJECT)
+  set(LAYOUTVISUALIZER_MASTER_PROJECT OFF)
+  if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(LAYOUTVISUALIZER_MASTER_PROJECT ON)
+  endif()
+endif()
+
+project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES CXX)
 include(cmake/env.cmake)
 
 add_subdirectory(source)

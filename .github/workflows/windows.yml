@@ -1,0 +1,145 @@
+name: windows
+
+on: [push, pull_request]
+
+jobs:
+
+  Build:
+    name: ${{matrix.name}} (${{matrix.config}})
+    runs-on: ${{matrix.os}}
+
+    env:
+      CMAKE_GENERATOR: Ninja
+
+    strategy:
+      fail-fast: false
+      matrix:
+        name: [
+          windows-2019-msvc2019,
+          windows-2019-msvc2019-win32,
+          windows-2019-msvc2019-arm64,
+          windows-2019-msvc2019-clang,
+          windows-2022-msvc2022,
+          windows-2022-msvc2022-win32,
+          windows-2022-msvc2022-arm64,
+          windows-2022-msvc2022-clang
+        ]
+        config: [Debug, Release]
+        include:
+          - name: windows-2019-msvc2019
+            os: windows-2019
+            compiler: cl
+            version: Visual Studio 16 2019
+            architecture: -A x64
+            version2: win64_msvc2019_64
+            qtversion: 6.4.2
+
+          - name: windows-2019-msvc2019-win32
+            os: windows-2019
+            compiler: cl
+            version: Visual Studio 16 2019
+            architecture: -A Win32
+            version2: win32_msvc2019
+            qtversion: 5.15.2
+
+          - name: windows-2019-msvc2019-arm64
+            os: windows-2019
+            compiler: cl
+            version: Visual Studio 16 2019
+            architecture: -A ARM64
+            version2: win64_msvc2019_arm64
+            qtversion: 6.4.2
+
+          - name: windows-2019-msvc2019-clang
+            os: windows-2019
+            compiler: cl
+            version: Visual Studio 16 2019
+            toolchain: -T clang-cl
+            version2: win64_msvc2019_64
+            qtversion: 6.4.2
+
+          - name: windows-2022-msvc2022
+            os: windows-2022
+            compiler: cl
+            version: Visual Studio 17 2022
+            architecture: -A x64
+            version2: win64_msvc2019_64
+            qtversion: 6.4.2
+
+          - name: windows-2022-msvc2022-win32
+            os: windows-2022
+            compiler: cl
+            version: Visual Studio 17 2022
+            architecture: -A Win32
+            version2: win32_msvc2019
+            qtversion: 5.15.2
+
+          - name: windows-2022-msvc2022-arm64
+            os: windows-2022
+            compiler: cl
+            version: Visual Studio 17 2022
+            architecture: -A ARM64
+            version2: win64_msvc2019_arm64
+            qtversion: 6.4.2
+
+          - name: windows-2022-msvc2022-clang
+            os: windows-2022
+            compiler: cl
+            version: Visual Studio 17 2022
+            toolchain: -T clang-cl
+            version2: win64_msvc2019_64
+            qtversion: 6.4.2
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{matrix.qtversion}}'
+          host: 'windows'
+          target: 'desktop'
+          arch: '${{matrix.version2}}'
+
+      - name: Dependencies
+        run: |
+            if ( "${{matrix.compiler}}" -eq "gcc" ) {
+              # choco install ninja
+              choco install ninja -y
+              # choco install cmake -y
+              choco install llvm -y
+              echo "CC=gcc" >> $Env:GITHUB_ENV
+              echo "CXX=g++" >> $Env:GITHUB_ENV
+            }
+            elseif ( "${{matrix.compiler}}".StartsWith( "clang" ) ) {
+              choco install ninja
+              echo "CC=clang" >> $Env:GITHUB_ENV
+              echo "CXX=clang++" >> $Env:GITHUB_ENV
+            }
+            echo "Qt5_DIR=/${{runner.workspace}}/Qt/${{matrix.qtversion}}/lib/cmake" >> $GITHUB_ENV
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'cpp'
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake
+        working-directory: ${{runner.workspace}}/build
+        run: cmake $Env:GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}} -G"${{matrix.version}}" ${{matrix.architecture}} ${{matrix.toolchain}}
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --config ${{matrix.config}}
+
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        run: |
+            if ( "${{matrix.architecture}}" -ne "-A ARM64" ) {
+              ctest --output-on-failure -C ${{matrix.config}}
+            }
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2

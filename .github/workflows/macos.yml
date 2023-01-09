@@ -1,0 +1,106 @@
+name: macos
+
+on: [push, pull_request]
+
+jobs:
+
+  Build:
+    name: ${{matrix.name}} (${{matrix.config}})
+    runs-on: ${{matrix.os}}
+
+    env:
+      CMAKE_GENERATOR: Ninja
+
+    strategy:
+      fail-fast: false
+      matrix:
+        name: [
+          macos-12-xcode-13-x86_64,
+          macos-12-xcode-13-arm64,
+          macos-12-xcode-14-x86_64,
+          macos-12-xcode-14-arm64
+        ]
+        config: [Debug, Release]
+        include:
+          - name: macos-12-xcode-13-x86_64
+            os: macos-12
+            compiler: xcode
+            version: "13.4"
+            cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64
+
+          - name: macos-12-xcode-13-arm64
+            os: macos-12
+            compiler: xcode
+            version: "13.4"
+            cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=arm64
+
+          - name: macos-12-xcode-14-x86_64
+            os: macos-12
+            compiler: xcode
+            version: "14.1"
+            cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64
+
+          - name: macos-12-xcode-14-arm64
+            os: macos-12
+            compiler: xcode
+            version: "14.1"
+            cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=arm64
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Dependencies
+        run: |
+            brew install ninja
+            if [ "${{matrix.cmake}}" = "-DCMAKE_OSX_ARCHITECTURES:STRING=arm64" ]; then
+              brew fetch --force --bottle-tag=arm64_ventura zlib
+              brew install zlib.tar.gz
+              brew fetch --force --bottle-tag=arm64_ventura sqlite
+              brew install sqlite_bottle.tar.gz
+              brew fetch --force --bottle-tag=arm64_ventura qt@6
+              brew install /path/to/downloaded_bottle.tar.gz
+            else
+              brew install qt@6
+            fi
+
+            if [ "${{matrix.compiler}}" = "gcc" ]; then
+              brew install gcc@${{matrix.version}}
+              echo "CC=gcc-${{matrix.version}}" >> $GITHUB_ENV
+              echo "CXX=g++-${{matrix.version}}" >> $GITHUB_ENV
+            fi
+            if [ "${{matrix.compiler}}" = "xcode" ]; then
+              ls -ls /Applications/
+              sudo xcode-select -switch /Applications/Xcode_${{matrix.version}}.app
+              echo "CC=clang" >> $GITHUB_ENV
+              echo "CXX=clang++" >> $GITHUB_ENV
+            fi
+
+            echo "QT_DIR=/usr/local/opt/qt@6/lib/cmake" >> $GITHUB_ENV
+            echo "Qt5_DIR=/usr/local/opt/qt@6/lib/cmake" >> $GITHUB_ENV
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'cpp'
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake
+        working-directory: ${{runner.workspace}}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}} ${{matrix.cmake}}
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --config ${{matrix.config}}
+
+#       arm64 mac runner are not able to start the tests: [Unknown system error -86]
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        run: |
+            if [ "${{matrix.cmake}}" != "-DCMAKE_OSX_ARCHITECTURES:STRING=arm64" ]; then
+              ctest --output-on-failure -C ${{matrix.config}}
+            fi
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
