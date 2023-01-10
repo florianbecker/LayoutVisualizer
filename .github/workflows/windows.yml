@@ -145,11 +145,9 @@ jobs:
         run: cmake --build . --config ${{matrix.config}}
 
       - name: Test
+        if: matrix.architecture != '-A ARM64'
         working-directory: ${{runner.workspace}}/build
-        run: |
-            if ( "${{matrix.architecture}}" -ne "-A ARM64" ) {
-              ctest --output-on-failure -C ${{matrix.config}}
-            }
+        run: ctest --output-on-failure -C ${{matrix.config}}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
