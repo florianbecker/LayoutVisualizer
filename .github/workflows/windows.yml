@@ -122,7 +122,10 @@ jobs:
               echo "CXX=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $env:GITHUB_ENV
             }
             if ( "${{matrix.architecture}}" -eq "-A ARM64" ) {
-              echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/win64_msvc2019_64/" >> $env:GITHUB_ENV
+              echo "Qt6_DIR=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64" >> $env:GITHUB_ENV
+              echo "QT_PLUGIN_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/plugins" >> $env:GITHUB_ENV
+              echo "QML2_IMPORT_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/qml" >> $env:GITHUB_ENV
+              echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_64/" >> $env:GITHUB_ENV
             }
 
       - name: Initialize CodeQL
