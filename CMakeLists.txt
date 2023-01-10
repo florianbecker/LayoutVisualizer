@@ -39,7 +39,7 @@ if(NOT DEFINED LAYOUTVISUALIZER_MASTER_PROJECT)
   endif()
 endif()
 
-project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES CXX)
+project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES C CXX)
 include(cmake/env.cmake)
 
 # Fetch Content Dependencies

@@ -38,11 +38,11 @@
 
 namespace vx {
 
-  constexpr int defaultX = 100;
-  constexpr int defaultY = 100;
+  constexpr std::int32_t defaultX = 100;
+  constexpr std::int32_t defaultY = 100;
 
-  constexpr int defaultWidth = 300;
-  constexpr int defaultHeight = 200;
+  constexpr std::int32_t defaultWidth = 300;
+  constexpr std::int32_t defaultHeight = 200;
 
   RasterWindow::RasterWindow( QWindow *_parent )
     : QWindow( _parent )

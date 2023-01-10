@@ -78,7 +78,7 @@ namespace vx {
     /**
      * @brief Member for timer id.
      */
-    int m_timerId = 0;
+    std::int32_t m_timerId = 0;
 
     /**
      * @brief Member for current cursor position.
@@ -99,6 +99,6 @@ namespace vx {
      */
     void drawLayout( QPainter *_painter,
                      QLayout *_layout,
-                     int _layer = 0 );
+                     std::int32_t _layer = 0 );
   };
 }

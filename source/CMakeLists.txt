@@ -43,6 +43,14 @@ add_library(${PROJECT_NAME}
   LayoutVisualizer.h
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
+add_library(Layout::Visualizer ALIAS ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt${QT_VERSION_MAJOR}::Widgets)
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+  ${PROJECT_SOURCE_DIR}
+)
+
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+  Qt${QT_VERSION_MAJOR}::Widgets
+)

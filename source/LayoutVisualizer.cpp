@@ -32,7 +32,6 @@
 #include <chrono>
 
 /* qt header */
-#include <QDebug>
 #include <QEvent>
 #include <QFormLayout>
 #include <QMouseEvent>
@@ -78,7 +77,7 @@ namespace vx {
   /**
    * @brief Darkening for every next layout.
    */
-  constexpr int darker = 100;
+  constexpr std::int32_t darker = 100;
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
     : QObject( _parent ),
@@ -143,7 +142,7 @@ namespace vx {
 
   void LayoutVisualizer::drawLayout( QPainter *_painter,
                                      QLayout *_layout,
-                                     int _layer ) {
+                                     std::int32_t _layer ) {
 
     if ( !_painter || !_layout ) {
 
@@ -183,8 +182,8 @@ namespace vx {
     /* endif not erase inside */
     _painter->fillRect( _layout->contentsRect(), brush );
 
-    const int layer = _layer + 1;
-    for ( int pos = 0; pos < _layout->count(); ++pos ) {
+    const std::int32_t layer = _layer + 1;
+    for ( std::int32_t pos = 0; pos < _layout->count(); ++pos ) {
 
       QLayoutItem *item = _layout->itemAt( pos );
       if ( !item ) {
@@ -203,9 +202,8 @@ namespace vx {
         continue;
       }
 
-      int horizontalSpacing = _layout->spacing();
-      int verticalSpacing = _layout->spacing();
-
+      std::int32_t horizontalSpacing = _layout->spacing();
+      std::int32_t verticalSpacing = _layout->spacing();
       if ( horizontalSpacing == -1 ) {
 
         const auto *gridLayout = dynamic_cast<QGridLayout *>( _layout );
@@ -241,6 +239,7 @@ namespace vx {
       QRect rect = item->widget()->contentsRect();
       rect.moveTo( item->widget()->mapToParent( QPoint( 0, 0 ) ) );
       rect = rect.marginsRemoved( QMargins( horizontalSpacing, verticalSpacing, horizontalSpacing, verticalSpacing ) );
+
       _painter->eraseRect( rect );
       _painter->drawRect( rect );
     }

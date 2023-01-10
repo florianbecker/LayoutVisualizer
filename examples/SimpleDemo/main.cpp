@@ -37,7 +37,8 @@
 #endif
 #include "SimpleDemo.h"
 
-int main( int argc, char **argv ) {
+std::int32_t main( std::int32_t argc,
+                   char **argv ) {
 
   const QApplication app( argc, argv );
   QApplication::setApplicationName( QStringLiteral( "SimpleDemo" ) );
