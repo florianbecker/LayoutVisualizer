@@ -93,15 +93,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Qt (Host)
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '${{matrix.qtversion}}'
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_msvc2019_64'
-          cache: 'true'
-
       - name: Install Qt (Cross)
         uses: jurplel/install-qt-action@v3
         with:
@@ -109,6 +100,15 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: '${{matrix.version2}}'
+          cache: 'true'
+
+      - name: Install Qt (Host)
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{matrix.qtversion}}'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
           cache: 'true'
 
       - name: Dependencies
@@ -120,8 +120,7 @@ jobs:
               echo "CC=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $Env:GITHUB_ENV
               echo "CXX=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $Env:GITHUB_ENV
             }
-            echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/win64_msvc2019_64/" >> $GITHUB_ENV
-            echo %QT_DIR%
+            echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/win64_msvc2019_64/" >> $Env::GITHUB_ENV
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
