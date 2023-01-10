@@ -37,13 +37,13 @@ jobs:
           - name: macos-12-xcode-14-x86_64
             os: macos-12
             compiler: xcode
-            version: "14.1"
+            version: "14.2"
             cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64
 
           - name: macos-12-xcode-14-arm64
             os: macos-12
             compiler: xcode
-            version: "14.1"
+            version: "14.2"
             cmake: -DCMAKE_OSX_ARCHITECTURES:STRING=arm64
 
     steps:
@@ -52,6 +52,7 @@ jobs:
       - name: Dependencies
         run: |
             brew install ninja
+            brew install doxygen graphviz
             if [ "${{matrix.cmake}}" = "-DCMAKE_OSX_ARCHITECTURES:STRING=arm64" ]; then
               brew fetch --force --bottle-tag=arm64_ventura zlib
               brew install zlib.tar.gz
@@ -94,13 +95,14 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{matrix.config}}
 
-#       arm64 mac runner are not able to start the tests: [Unknown system error -86]
       - name: Test
+        if: matrix.cmake != '-DCMAKE_OSX_ARCHITECTURES:STRING=arm64'
         working-directory: ${{runner.workspace}}/build
-        run: |
-            if [ "${{matrix.cmake}}" != "-DCMAKE_OSX_ARCHITECTURES:STRING=arm64" ]; then
-              ctest --output-on-failure -C ${{matrix.config}}
-            fi
+        run: ctest --output-on-failure -C ${{matrix.config}}
+
+      - name: Documentation
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --target documentation
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2

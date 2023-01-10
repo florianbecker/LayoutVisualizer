@@ -39,6 +39,7 @@ option(LAYOUTVISUALIZER_BUILD_TESTS "Build tests for LayoutVisualizer" ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
+cmake_host_system_information(RESULT CPU_COUNT QUERY NUMBER_OF_LOGICAL_CORES)
 
 # CMake
 set(CMAKE ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -97,14 +98,14 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
     endforeach()
   endif()
 
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror -Weffc++")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
+
   if(UNIX AND NOT APPLE)
     set(EXTRA_CXX_FLAGS -stdlib=libc++)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${EXTRA_CXX_FLAGS} -lc++abi -fuse-ld=lld")
   endif()
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror -Weffc++")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
 
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   include(${CMAKE}/gcc_warnings.cmake)
@@ -139,6 +140,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE}/modules)
 
 # Includes
+include(${CMAKE}/doxygen.cmake)
 include(${CMAKE}/find_package.cmake)
 
 if(LAYOUTVISUALIZER_MASTER_PROJECT AND CMAKE_BUILD_TYPE STREQUAL "Debug")

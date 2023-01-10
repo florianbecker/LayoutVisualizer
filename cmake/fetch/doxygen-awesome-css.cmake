@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2020 Florian Becker <fb@vxapps.com> (VX APPS).
+# Copyright (c) 2022 Florian Becker <fb@vxapps.com> (VX APPS).
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -28,23 +28,12 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-cmake_minimum_required(VERSION 3.18)
+include(FetchContent)
 
-# Determine if this is built as a subproject (using add_subdirectory)
-# or if it is the master project.
-if(NOT DEFINED LAYOUTVISUALIZER_MASTER_PROJECT)
-  set(LAYOUTVISUALIZER_MASTER_PROJECT OFF)
-  if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    set(LAYOUTVISUALIZER_MASTER_PROJECT ON)
-  endif()
-endif()
+FetchContent_Declare(doxygen-awesome-css
+  GIT_REPOSITORY https://github.com/jothepro/doxygen-awesome-css.git
+  GIT_TAG v2.1.0
+  GIT_SHALLOW 1
+)
 
-project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES CXX)
-include(cmake/env.cmake)
-
-# Fetch Content Dependencies
-include(${CMAKE}/fetch/doxygen-awesome-css.cmake)
-
-add_subdirectory(source)
-add_subdirectory(examples)
-add_subdirectory(tools)
+FetchContent_MakeAvailable(doxygen-awesome-css)

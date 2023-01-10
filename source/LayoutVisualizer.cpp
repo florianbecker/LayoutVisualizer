@@ -49,15 +49,35 @@ using namespace std::literals::chrono_literals;
 namespace vx {
 
 #if QT_VERSION >= QT_VERSION_CHECK( 5, 13, 0 )
+  /**
+   * @brief Color for master layout.
+   */
   constexpr QColor masterLayerColor = QColor( 0, 0, 255 );
+
+  /**
+   * @brief Color for next layout.
+   */
   constexpr QColor secondLayerBaseColor = QColor( 255, 0, 0 );
 #else
+  /**
+   * @brief Color for master layout.
+   */
   const QColor masterLayerColor = QColor( 0, 0, 255 );
+
+  /**
+   * @brief Color for next layout.
+   */
   const QColor secondLayerBaseColor = QColor( 255, 0, 0 );
 #endif
 
+  /**
+   * @brief Marked layout reset timeout.
+   */
   constexpr auto resetInterval = 200ms;
 
+  /**
+   * @brief Darkening for every next layout.
+   */
   constexpr int darker = 100;
 
   LayoutVisualizer::LayoutVisualizer( QObject *_parent )
