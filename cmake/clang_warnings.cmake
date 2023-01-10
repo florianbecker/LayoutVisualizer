@@ -33,6 +33,7 @@ set(WARNING_FLAGS
   # Own parameter
   -Wno-c++98-compat # C++11
   -Wno-padded
+  -Wno-c++20-compat
 
   # Qt > 5.13 const QColor
   -Wno-global-constructors

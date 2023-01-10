@@ -93,13 +93,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Qt
+      - name: Install Qt (Host)
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{matrix.qtversion}}'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          cache: 'true'
+
+      - name: Install Qt (Cross)
         uses: jurplel/install-qt-action@v3
         with:
           version: '${{matrix.qtversion}}'
           host: 'windows'
           target: 'desktop'
           arch: '${{matrix.version2}}'
+          cache: 'true'
 
       - name: Dependencies
         run: |
@@ -116,7 +126,7 @@ jobs:
               echo "CC=clang" >> $Env:GITHUB_ENV
               echo "CXX=clang++" >> $Env:GITHUB_ENV
             }
-            echo "Qt5_DIR=/${{runner.workspace}}/Qt/${{matrix.qtversion}}/lib/cmake" >> $GITHUB_ENV
+            echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/win64_msvc2019_64/" >> $GITHUB_ENV
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
