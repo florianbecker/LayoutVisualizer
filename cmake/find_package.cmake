@@ -28,9 +28,19 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+if (UNIX)
+  set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+endif()
+if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
+  set(CMAKE_REQUIRED_FLAGS "-Wno-unreachable-code-return -Wno-zero-as-null-pointer-constant")
+endif()
+find_package(Threads REQUIRED)
+unset(CMAKE_REQUIRED_FLAGS)
+
 if(APPLE)
   find_library(COREFOUNDATION CoreFoundation REQUIRED)
   find_library(COCOA Cocoa REQUIRED)
 endif()
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
