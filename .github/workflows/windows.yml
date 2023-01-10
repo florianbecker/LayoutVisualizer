@@ -93,16 +93,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Qt (Cross)
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '${{matrix.qtversion}}'
-          host: 'windows'
-          target: 'desktop'
-          arch: '${{matrix.version2}}'
-          cache: 'true'
-
       - name: Install Qt (Host)
+        if: matrix.architecture == '-A ARM64'
         uses: jurplel/install-qt-action@v3
         with:
           version: '${{matrix.qtversion}}'
@@ -111,16 +103,27 @@ jobs:
           arch: 'win64_msvc2019_64'
           cache: 'true'
 
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{matrix.qtversion}}'
+          host: 'windows'
+          target: 'desktop'
+          arch: '${{matrix.version2}}'
+          cache: 'true'
+
       - name: Dependencies
         run: |
             choco install doxygen.install graphviz -y
             if ( "${{matrix.compiler}}" -eq "clang-cl" ) {
               choco install ninja -y
               choco install llvm -y
-              echo "CC=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $Env:GITHUB_ENV
-              echo "CXX=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $Env:GITHUB_ENV
+              echo "CC=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $env:GITHUB_ENV
+              echo "CXX=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $env:GITHUB_ENV
             }
-            echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/win64_msvc2019_64/" >> $Env::GITHUB_ENV
+            if ( "${{matrix.architecture}}" -eq "-A ARM64" ) {
+              echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/win64_msvc2019_64/" >> $env:GITHUB_ENV
+            }
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
