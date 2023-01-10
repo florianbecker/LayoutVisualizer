@@ -54,7 +54,6 @@ jobs:
 #            os: windows-2019
 #            compiler: clang-cl
 #            version: Ninja
-#            toolchain: '"-DCMAKE_C_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/clang-cl.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/clang-cl.exe"'
 #            version2: win64_msvc2019_64
 #            qtversion: 6.4.2
 
@@ -86,12 +85,20 @@ jobs:
 #            os: windows-2022
 #            compiler: clang-cl
 #            version: Ninja
-#            toolchain: '"-DCMAKE_C_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/clang-cl.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/clang-cl.exe"'
 #            version2: win64_msvc2019_64
 #            qtversion: 6.4.2
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{matrix.qtversion}}'
+          host: 'windows'
+          target: 'desktop'
+          arch: '${{matrix.version2}}'
+          cache: 'true'
 
       - name: Install Qt (Host)
         if: matrix.architecture == '-A ARM64'
@@ -101,15 +108,6 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
-          cache: 'true'
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '${{matrix.qtversion}}'
-          host: 'windows'
-          target: 'desktop'
-          arch: '${{matrix.version2}}'
           cache: 'true'
 
       - name: Dependencies
