@@ -8,9 +8,6 @@ jobs:
     name: ${{matrix.name}} (${{matrix.config}})
     runs-on: ${{matrix.os}}
 
-    env:
-      CMAKE_GENERATOR: Ninja
-
     strategy:
       fail-fast: false
       matrix:
@@ -18,11 +15,11 @@ jobs:
           windows-2019-msvc2019,
           windows-2019-msvc2019-win32,
           windows-2019-msvc2019-arm64,
-#          windows-2019-msvc2019-clang,
+          windows-2019-msvc2019-clang,
           windows-2022-msvc2022,
           windows-2022-msvc2022-win32,
-          windows-2022-msvc2022-arm64
-#          windows-2022-msvc2022-clang
+          windows-2022-msvc2022-arm64,
+          windows-2022-msvc2022-clang
         ]
         config: [Debug, Release]
         include:
@@ -50,12 +47,14 @@ jobs:
             version2: win64_msvc2019_arm64
             qtversion: 6.4.2
 
-#          - name: windows-2019-msvc2019-clang
-#            os: windows-2019
-#            compiler: clang-cl
-#            version: Ninja
-#            version2: win64_msvc2019_64
-#            qtversion: 6.4.2
+          - name: windows-2019-msvc2019-clang
+            os: windows-2019
+            compiler: clang-cl
+            version: Visual Studio 16 2019
+            architecture: -A x64
+            toolchain: -T ClangCl
+            version2: win64_msvc2019_64
+            qtversion: 6.4.2
 
           - name: windows-2022-msvc2022
             os: windows-2022
@@ -81,12 +80,14 @@ jobs:
             version2: win64_msvc2019_arm64
             qtversion: 6.4.2
 
-#          - name: windows-2022-msvc2022-clang
-#            os: windows-2022
-#            compiler: clang-cl
-#            version: Ninja
-#            version2: win64_msvc2019_64
-#            qtversion: 6.4.2
+          - name: windows-2022-msvc2022-clang
+            os: windows-2022
+            compiler: clang-cl
+            version: Visual Studio 17 2022
+            architecture: -A x64
+            toolchain: -T ClangCl
+            version2: win64_msvc2019_64
+            qtversion: 6.4.2
 
     steps:
       - uses: actions/checkout@v3
@@ -112,31 +113,20 @@ jobs:
 
       - name: Dependencies
         run: |
-            choco install doxygen.install graphviz -y
-            if ( "${{matrix.compiler}}" -eq "clang-cl" ) {
-              choco install ninja -y
-              choco install llvm -y
-              echo "CC=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $env:GITHUB_ENV
-              echo "CXX=C:/Program Files/LLVM/bin/${{matrix.compiler}}.exe" >> $env:GITHUB_ENV
-            }
-            if ( "${{matrix.architecture}}" -eq "-A ARM64" ) {
-              echo "Qt6_DIR=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64" >> $env:GITHUB_ENV
-              echo "QT_PLUGIN_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/plugins" >> $env:GITHUB_ENV
-              echo "QML2_IMPORT_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/qml" >> $env:GITHUB_ENV
-              echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_64/" >> $env:GITHUB_ENV
-            }
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: 'cpp'
+             choco install doxygen.install graphviz -y
+             if ( "${{matrix.architecture}}" -eq "-A ARM64" ) {
+               echo "Qt6_DIR=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64" >> $env:GITHUB_ENV
+               echo "QT_PLUGIN_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/plugins" >> $env:GITHUB_ENV
+               echo "QML2_IMPORT_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/qml" >> $env:GITHUB_ENV
+               echo "QT_HOST_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_64/" >> $env:GITHUB_ENV
+             }
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure CMake
         working-directory: ${{runner.workspace}}/build
-        run: cmake $Env:GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}} -G"${{matrix.version}}" ${{matrix.architecture}} ${{matrix.toolchain}}
+        run: cmake $env:GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}} -G"${{matrix.version}}" ${{matrix.architecture}} ${{matrix.toolchain}}
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
@@ -150,6 +140,3 @@ jobs:
       - name: Documentation
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --target documentation
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2

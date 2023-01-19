@@ -28,8 +28,25 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  return()
+endif()
+
 set(WARNING_FLAGS
   # Visual Studio 2019 Qt 5.15
   # operator: deprecated between enumerations of different types
   /wd5054
 )
+
+foreach(WARNING_FLAG ${WARNING_FLAGS})
+  set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
+endforeach()
+
+# Force to always compile with W4
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
+if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+  string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")

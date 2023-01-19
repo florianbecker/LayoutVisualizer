@@ -36,6 +36,7 @@ option(LAYOUTVISUALIZER_BUILD_EXAMPLES "Build examples for LayoutVisualizer" ON)
 option(LAYOUTVISUALIZER_BUILD_TESTS "Build tests for LayoutVisualizer" ON)
 
 # General
+set(CMAKE_TLS_VERIFY TRUE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")
@@ -44,11 +45,39 @@ cmake_host_system_information(RESULT CPU_COUNT QUERY NUMBER_OF_LOGICAL_CORES)
 # CMake
 set(CMAKE ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+# Force C23 or C17 if available
+include(CheckCCompilerFlag)
+if(CMAKE_C_COMPILER_ID STREQUAL "MSVC" OR CMAKE_C_SIMULATE_ID STREQUAL "MSVC")
+  check_c_compiler_flag(/std:c23 HAVE_FLAG_STD_C23)
+  check_c_compiler_flag(/std:c17 HAVE_FLAG_STD_C17)
+  # Visual Studio 2019 will have clang-12, Visual Studio will have clang-15, but cmake do not know how to set the standard for that.
+  if(CMAKE_C_COMPILER_ID MATCHES Clang AND CMAKE_C_COMPILER_VERSION VERSION_LESS 16.0)
+    set(HAVE_FLAG_STD_C23 OFF)
+  endif()
+else()
+  check_c_compiler_flag(-std=c23 HAVE_FLAG_STD_C23)
+  check_c_compiler_flag(-std=c17 HAVE_FLAG_STD_C17)
+endif()
+
+if(HAVE_FLAG_STD_C23)
+  set(CMAKE_C_STANDARD 23)
+elseif(HAVE_FLAG_STD_C17)
+  set(CMAKE_C_STANDARD 17)
+else()
+  set(CMAKE_C_STANDARD 11)
+endif()
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
 # Force C++23 or C++20 if available
 include(CheckCXXCompilerFlag)
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]" AND WIN32)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
   check_cxx_compiler_flag(/std:c++23 HAVE_FLAG_STD_CXX23)
   check_cxx_compiler_flag(/std:c++20 HAVE_FLAG_STD_CXX20)
+  # Visual Studio 2019 will have clang-12, but cmake do not know how to set the standard for that.
+  if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13.0)
+    set(HAVE_FLAG_STD_CXX23 OFF)
+  endif()
 else()
   check_cxx_compiler_flag(-std=c++23 HAVE_FLAG_STD_CXX23)
   check_cxx_compiler_flag(-std=c++2b HAVE_FLAG_STD_CXX2B)
@@ -57,9 +86,9 @@ else()
 endif()
 
 # Clang-8 have some issues, that are not repairable
-if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "9")
-  set(HAVE_FLAG_STD_CXX20 0)
-  set(HAVE_FLAG_STD_CXX2A 0)
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+  set(HAVE_FLAG_STD_CXX20 OFF)
+  set(HAVE_FLAG_STD_CXX2A OFF)
 endif()
 
 if(HAVE_FLAG_STD_CXX23 OR HAVE_FLAG_STD_CXX2B)
@@ -73,76 +102,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # IPO/LTO
-include(CheckIPOSupported)
-check_ipo_supported(RESULT result OUTPUT output)
-if(result)
-  # It's available, set it for all following items
-  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
-else()
-  message(WARNING "IPO is not supported: ${output}")
+if(LAYOUTVISUALIZER_MASTER_PROJECT)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT HAVE_IPO_SUPPORT OUTPUT IPO_ERROR)
+  if(HAVE_IPO_SUPPORT)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
+  else()
+    message(WARNING "IPO is not supported: ${IPO_ERROR}")
+  endif()
 endif()
 
-# Warning flags
-# Case insensitive match
-if(CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
-  include(${CMAKE}/clang_warnings.cmake)
-
-  set(WARNING_FLAGS_SPACED "")
-  foreach(WARNING_FLAG ${WARNING_FLAGS})
-    set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
-  endforeach()
-
-  if(NOT CMAKE_CXX_COMPILER_ID MATCHES "[aA][pP][pP][lL][eE][cC][lL][aA][nN][gG]" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "13")
-    foreach(WARNING_FLAG ${WARNING_FLAGS_VERSION13})
-      set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
-    endforeach()
-  endif()
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror -Weffc++")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
-
-  if(UNIX AND NOT APPLE)
-    set(EXTRA_CXX_FLAGS -stdlib=libc++)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${EXTRA_CXX_FLAGS} -lc++abi -fuse-ld=lld")
-  endif()
-
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  include(${CMAKE}/gcc_warnings.cmake)
-
-  set(WARNING_FLAGS_SPACED "")
-  foreach(WARNING_FLAG ${WARNING_FLAGS})
-    set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
-  endforeach()
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -Weffc++ -Wpedantic")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
-
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  include(${CMAKE}/msvc_warnings.cmake)
-
-  set(WARNING_FLAGS_SPACED "")
-  foreach(WARNING_FLAG ${WARNING_FLAGS})
-    set(WARNING_FLAGS_SPACED "${WARNING_FLAGS_SPACED} ${WARNING_FLAG}")
-  endforeach()
-
-  # Force to always compile with W4
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
-  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-  endif()
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS_SPACED}")
-endif()
+# Compiler configuration
+include(${CMAKE}/clang_warnings.cmake)
+include(${CMAKE}/gcc_warnings.cmake)
+include(${CMAKE}/msvc_warnings.cmake)
 
 # Project modules/variables
 set(CMAKE_MODULE_PATH ${CMAKE}/modules)
 
 # Includes
-include(${CMAKE}/doxygen.cmake)
-include(${CMAKE}/find_package.cmake)
-
-if(LAYOUTVISUALIZER_MASTER_PROJECT AND CMAKE_BUILD_TYPE STREQUAL "Debug")
-  include(${CMAKE}/sanitizers.cmake)
+if(LAYOUTVISUALIZER_MASTER_PROJECT)
+  include(${CMAKE}/documentation.cmake)
 endif()
+include(${CMAKE}/find_package.cmake)

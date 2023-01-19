@@ -157,7 +157,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
 # description.
 # The default value is: NO.
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = YES
 
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all
 # inherited members of a class in the documentation of that class as if those
@@ -209,7 +209,7 @@ SHORT_NAMES            = NO
 # description.)
 # The default value is: NO.
 
-JAVADOC_AUTOBRIEF      = YES
+JAVADOC_AUTOBRIEF      = NO
 
 # If the JAVADOC_BANNER tag is set to YES then doxygen will interpret a line
 # such as
@@ -253,7 +253,7 @@ PYTHON_DOCSTRING       = YES
 # documentation from any documented member that it re-implements.
 # The default value is: YES.
 
-INHERIT_DOCS           = NO
+INHERIT_DOCS           = YES
 
 # If the SEPARATE_MEMBER_PAGES tag is set to YES then doxygen will produce a new
 # page for each member. If set to NO, the documentation of a member will be part
@@ -291,7 +291,7 @@ ALIASES                =
 # members will be omitted, etc.
 # The default value is: NO.
 
-OPTIMIZE_OUTPUT_FOR_C  = YES
+OPTIMIZE_OUTPUT_FOR_C  = NO
 
 # Set the OPTIMIZE_OUTPUT_JAVA tag to YES if your project consists of Java or
 # Python sources only. Doxygen will then generate output that is more tailored
@@ -548,7 +548,7 @@ EXTRACT_LOCAL_METHODS  = YES
 # are hidden.
 # The default value is: NO.
 
-EXTRACT_ANON_NSPACES   = YES
+EXTRACT_ANON_NSPACES   = NO
 
 # If this flag is set to YES, the name of an unnamed parameter in a declaration
 # will be determined by the corresponding definition. By default unnamed
@@ -643,7 +643,7 @@ SHOW_INCLUDE_FILES     = YES
 # which file to include in order to use the member.
 # The default value is: NO.
 
-SHOW_GROUPED_MEMB_INC  = NO
+SHOW_GROUPED_MEMB_INC  = YES
 
 # If the FORCE_LOCAL_INCLUDES tag is set to YES then doxygen will list include
 # files with double quotes in the documentation rather than with sharp brackets.
@@ -917,7 +917,8 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = source
+INPUT                  = source \
+                         README.md
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1132,7 +1133,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the doxygen output.
 
-USE_MDFILE_AS_MAINPAGE =
+USE_MDFILE_AS_MAINPAGE = README.md
 
 # The Fortran standard specifies that for fixed formatted Fortran code all
 # characters from position 72 are to be considered as comment. A common
@@ -1331,7 +1332,9 @@ HTML_STYLESHEET        =
 # documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = @CMAKE_CURRENT_BINARY_DIR@/_deps/doxygen-awesome-css-src/doxygen-awesome.css
+HTML_EXTRA_STYLESHEET  = @CMAKE_CURRENT_BINARY_DIR@/_deps/doxygen-awesome-css-src/doxygen-awesome.css \
+                         @CMAKE_CURRENT_BINARY_DIR@/_deps/doxygen-awesome-css-src/doxygen-awesome-sidebar-only.css \
+                         @CMAKE_CURRENT_BINARY_DIR@/_deps/doxygen-awesome-css-src/doxygen-awesome-sidebar-only-darkmode-toggle.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1640,7 +1643,7 @@ ECLIPSE_DOC_ID         = org.doxygen.Project
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-DISABLE_INDEX          = YES
+DISABLE_INDEX          = NO
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index
 # structure should be generated to display hierarchical information. If the tag
@@ -1686,7 +1689,7 @@ ENUM_VALUES_PER_LINE   = 4
 # Minimum value: 0, maximum value: 1500, default value: 250.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-TREEVIEW_WIDTH         = 250
+TREEVIEW_WIDTH         = 335
 
 # If the EXT_LINKS_IN_WINDOW option is set to YES, doxygen will open links to
 # external symbols imported via tag files in a separate window.
@@ -2372,7 +2375,8 @@ SKIP_FUNCTION_MACROS   = YES
 # the path). If a tag file is not located in the directory in which doxygen is
 # run, you must also specify the path to the tagfile here.
 
-TAGFILES               =
+TAGFILES               = docs/cppreference-doxygen-web.tag.xml=https://en.cppreference.com/w/ \
+                         docs/magic_enum-doxygen-web.tag.xml=https://github.com/Neargye/
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create a
 # tag file that is based on the input files it reads. See section "Linking to
@@ -2392,14 +2396,14 @@ ALLEXTERNALS           = NO
 # listed.
 # The default value is: YES.
 
-EXTERNAL_GROUPS        = YES
+EXTERNAL_GROUPS        = NO
 
 # If the EXTERNAL_PAGES tag is set to YES, all external pages will be listed in
 # the related pages index. If set to NO, only the current project's pages will
 # be listed.
 # The default value is: YES.
 
-EXTERNAL_PAGES         = YES
+EXTERNAL_PAGES         = NO
 
 #---------------------------------------------------------------------------
 # Configuration options related to the dot tool
@@ -2425,7 +2429,7 @@ HIDE_UNDOC_RELATIONS   = YES
 # set to NO
 # The default value is: NO.
 
-HAVE_DOT               = NO
+HAVE_DOT               = YES
 
 # The DOT_NUM_THREADS specifies the number of dot invocations doxygen is allowed
 # to run in parallel. When set to 0 doxygen will base this on the number of
@@ -2435,7 +2439,7 @@ HAVE_DOT               = NO
 # Minimum value: 0, maximum value: 32, default value: 0.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_NUM_THREADS        = 0
+DOT_NUM_THREADS        = @CPU_COUNT@
 
 # DOT_COMMON_ATTR is common attributes for nodes, edges and labels of
 # subgraphs. When you want a differently looking font in the dot files that
@@ -2448,7 +2452,7 @@ DOT_NUM_THREADS        = 0
 # The default value is: fontname=Helvetica,fontsize=10.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_COMMON_ATTR        = "fontname=Helvetica,fontsize=10"
+DOT_COMMON_ATTR        = "fontname=Helvetica,fontsize=10,bgcolor=transparent"
 
 # DOT_EDGE_ATTR is concatenated with DOT_COMMON_ATTR. For elegant style you can
 # add 'arrowhead=open, arrowtail=open, arrowsize=0.5'. <a
@@ -2457,7 +2461,7 @@ DOT_COMMON_ATTR        = "fontname=Helvetica,fontsize=10"
 # The default value is: labelfontname=Helvetica,labelfontsize=10.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_EDGE_ATTR          = "labelfontname=Helvetica,labelfontsize=10"
+DOT_EDGE_ATTR          = "labelfontname=Helvetica,labelfontsize=10,arrowhead=open,arrowtail=open,arrowsize=0.5"
 
 # DOT_NODE_ATTR is concatenated with DOT_COMMON_ATTR. For view without boxes
 # around nodes set 'shape=plain' or 'shape=plaintext' <a
@@ -2491,7 +2495,7 @@ CLASS_GRAPH            = YES
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-COLLABORATION_GRAPH    = YES
+COLLABORATION_GRAPH    = NO
 
 # If the GROUP_GRAPHS tag is set to YES then doxygen will generate a graph for
 # groups, showing the direct groups dependencies. See also the chapter Grouping
@@ -2728,7 +2732,7 @@ DOT_MULTI_TARGETS      = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-GENERATE_LEGEND        = YES
+GENERATE_LEGEND        = NO
 
 # If the DOT_CLEANUP tag is set to YES, doxygen will remove the intermediate
 # files that are used to generate the various graphs.

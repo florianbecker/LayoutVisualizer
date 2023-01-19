@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<tagfile>
+  <compound kind="class">
+    <name>std::abs</name>
+    <filename>cpp/numeric/math/abs</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::any</name>
+    <filename>cpp/utility/any</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::array</name>
+    <filename>cpp/container/array</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::bad_variant_access</name>
+    <filename>cpp/utility/variant/bad_variant_access</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::chrono::duration</name>
+    <filename>cpp/chrono/duration</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::chrono::microseconds</name>
+    <filename>cpp/chrono/duration</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::chrono::milliseconds</name>
+    <filename>cpp/chrono/duration</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::chrono::nanoseconds</name>
+    <filename>cpp/chrono/duration</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::chrono::seconds</name>
+    <filename>cpp/chrono/duration</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::chrono::time_point</name>
+    <filename>cpp/chrono/time_point</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::clock_t</name>
+    <filename>cpp/chrono/c/clock_t</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::conditional_t</name>
+    <filename>cpp/types/conditional</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::condition_variable_any</name>
+    <filename>cpp/thread/condition_variable_any</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::enable_if</name>
+    <filename>cpp/types/enable_if</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::enable_if_t</name>
+    <filename>cpp/types/enable_if</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::error_category</name>
+    <filename>cpp/error/error_category</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::error_code</name>
+    <filename>cpp/error/error_code</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::false_type</name>
+    <filename>cpp/header/type_traits</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::FILE</name>
+    <filename>cpp/io/c</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::floor</name>
+    <filename>cpp/numeric/math/floor</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::forward_iterator</name>
+    <filename>cpp/iterator/forward_iterator</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::function</name>
+    <filename>cpp/utility/functional/function</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::get</name>
+    <filename>cpp/utility/tuple/get</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::int8_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::int16_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::int32_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::int64_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::integral_constant</name>
+    <filename>cpp/types/integral_constant</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::ios::app</name>
+    <filename>cpp/io/ios_base/openmode</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::is_error_code_enum</name>
+    <filename>cpp/error/error_code/is_error_code_enum</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::is_floating_point_v</name>
+    <filename>cpp/types/is_floating_point</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::is_integral_v</name>
+    <filename>cpp/types/is_integral</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::is_same_v</name>
+    <filename>cpp/types/is_same</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::jthread</name>
+    <filename>cpp/thread/jthread</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::list</name>
+    <filename>cpp/container/list</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::make_pair</name>
+    <filename>cpp/utility/pair/make_pair</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::map</name>
+    <filename>cpp/container/map</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::max</name>
+    <filename>cpp/algorithm/max</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::modf</name>
+    <filename>cpp/numeric/math/modf</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::move</name>
+    <filename>cpp/utility/move</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::multimap</name>
+    <filename>cpp/container/multimap</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::nullopt_t</name>
+    <filename>cpp/types/nullopt_t</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::nullptr_t</name>
+    <filename>cpp/types/nullptr_t</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::optional</name>
+    <filename>cpp/utility/optional</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::ofstream</name>
+    <filename>cpp/io/basic_ofstream</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::ostream</name>
+    <filename>cpp/io/basic_ostream</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::pair</name>
+    <filename>cpp/utility/pair</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::pow</name>
+    <filename>numeric/complex/pow</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::queue</name>
+    <filename>cpp/container/queue</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::ratio</name>
+    <filename>cpp/numeric/ratio/ratio</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::micro</name>
+    <filename>cpp/numeric/ratio/ratio</filename>
+    <member kind="function">
+      <name>den</name>
+      <anchorfile>cpp/numeric/ratio/ratio</anchorfile>
+      <anchor></anchor>
+    </member>
+    <member kind="function">
+      <name>num</name>
+      <anchorfile>cpp/numeric/ratio/ratio</anchorfile>
+      <anchor></anchor>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>std::milli</name>
+    <filename>cpp/numeric/ratio/ratio</filename>
+    <member kind="function">
+      <name>den</name>
+      <anchorfile>cpp/numeric/ratio/ratio</anchorfile>
+      <anchor></anchor>
+    </member>
+    <member kind="function">
+      <name>num</name>
+      <anchorfile>cpp/numeric/ratio/ratio</anchorfile>
+      <anchor></anchor>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>std::nano</name>
+    <filename>cpp/numeric/ratio/ratio</filename>
+    <member kind="function">
+      <name>den</name>
+      <anchorfile>cpp/numeric/ratio/ratio</anchorfile>
+      <anchor></anchor>
+    </member>
+    <member kind="function">
+      <name>num</name>
+      <anchorfile>cpp/numeric/ratio/ratio</anchorfile>
+      <anchor></anchor>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>std::numeric_limits</name>
+    <filename>cpp/types/numeric_limits</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::set</name>
+    <filename>cpp/container/set</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::shared_lock</name>
+    <filename>cpp/thread/shared_lock</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::shared_mutex</name>
+    <filename>cpp/thread/shared_mutex</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::size_t</name>
+    <filename>cpp/types/size_t</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::source_location</name>
+    <filename>cpp/utility/source_location</filename>
+    <member kind="function">
+      <name>current</name>
+      <anchorfile>cpp/utility/source_location/current</anchorfile>
+      <anchor></anchor>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>std::sqrt</name>
+    <filename>cpp/numeric/math/sqrt</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::string</name>
+    <filename>cpp/string/basic_string</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::string_view</name>
+    <filename>cpp/string/basic_string_view</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::this_thread::sleep_for</name>
+    <filename>cpp/thread/sleep_for</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::time_t</name>
+    <filename>cpp/chrono/c/time_t</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::true_type</name>
+    <filename>cpp/header/type_traits</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::tuple</name>
+    <filename>cpp/utility/tuple</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::tuple_size</name>
+    <filename>cpp/utility/tuple/tuple_size</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::type_index</name>
+    <filename>cpp/types/type_index</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::uint8_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::uint16_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::uint32_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::uint64_t</name>
+    <filename>cpp/types/integer</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::unique_lock</name>
+    <filename>cpp/thread/unique_lock</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::unique_ptr</name>
+    <filename>cpp/memory/unique_ptr/unique_ptr</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::unordered_map</name>
+    <filename>cpp/container/unordered_map</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::variant</name>
+    <filename>cpp/utility/variant</filename>
+  </compound>
+  <compound kind="class">
+    <name>std::variant_size</name>
+    <filename>cpp/utility/variant/variant_size</filename>
+    <member kind="function">
+      <name>value</name>
+      <anchorfile>cpp/utility/variant/variant_size_value</anchorfile>
+      <anchor></anchor>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>std::vector</name>
+    <filename>cpp/container/vector</filename>
+  </compound>
+</tagfile>

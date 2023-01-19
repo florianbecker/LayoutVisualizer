@@ -28,7 +28,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.18...3.25)
 
 # Determine if this is built as a subproject (using add_subdirectory)
 # or if it is the master project.
@@ -41,10 +41,18 @@ endif()
 
 project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES C CXX)
 include(cmake/env.cmake)
+if(LAYOUTVISUALIZER_MASTER_PROJECT AND CMAKE_BUILD_TYPE STREQUAL Debug)
+  include(${CMAKE}/sanitizers.cmake)
+endif()
 
 # Fetch Content Dependencies
 include(${CMAKE}/fetch/doxygen-awesome-css.cmake)
 
 add_subdirectory(source)
-add_subdirectory(examples)
-add_subdirectory(tools)
+
+if(LAYOUTVISUALIZER_MASTER_PROJECT)
+  if(LAYOUTVISUALIZER_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+    add_subdirectory(tools)
+  endif()
+endif()

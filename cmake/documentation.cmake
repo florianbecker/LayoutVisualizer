@@ -28,24 +28,30 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# first we can indicate the documentation build as an option and set it to ON by default
-option(BUILD_DOC "Build documentation" OFF)
-
 # check if Doxygen is installed
 find_package(Doxygen)
+find_program(PYTHON_EXECUTABLE NAMES python3 python)
+
 if(DOXYGEN_FOUND)
   # set input and output files
-  set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
-  set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
+  set(DOXYGEN_IN ${CMAKE_SOURCE_DIR}/docs/Doxyfile.in)
+  set(DOXYGEN_OUT ${CMAKE_BINARY_DIR}/docs/Doxyfile)
 
   # request to configure the file
   configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
 
-  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/docs/logo.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/docs)
+  file(COPY ${CMAKE_SOURCE_DIR}/docs/logo.png DESTINATION ${CMAKE_BINARY_DIR}/docs)
+
+  add_custom_target(documentation-generation
+    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Generating documentation"
+    VERBATIM)
 
   add_custom_target(documentation
-    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Generating API documentation"
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/docs/post_doxygen.py ${CMAKE_BINARY_DIR}/docs
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Postprocessing documentation"
+    DEPENDS documentation-generation
     VERBATIM)
 endif()

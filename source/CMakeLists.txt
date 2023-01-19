@@ -54,3 +54,24 @@ target_link_libraries(${PROJECT_NAME}
   PUBLIC
   Qt${QT_VERSION_MAJOR}::Widgets
 )
+
+add_custom_target(${PROJECT_NAME}_documentation
+  SOURCES
+  ../docs/cppreference-doxygen-web.tag.xml
+  ../docs/Doxyfile.in
+  ../docs/footer.html
+  ../docs/header.html
+  ../docs/magic_enum-doxygen-web.tag.xml
+  ../docs/post_doxygen.py
+  ../README.md
+)
+
+add_custom_target(${PROJECT_NAME}_workflows
+  SOURCES
+#  ../.github/workflows/linux-codeql.yml
+  ../.github/workflows/linux.yml
+#  ../.github/workflows/macos-codeql.yml
+  ../.github/workflows/macos.yml
+#  ../.github/workflows/windows-codeql.yml
+  ../.github/workflows/windows.yml
+)
