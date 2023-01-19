@@ -30,4 +30,5 @@
 
 project(examples)
 
+add_subdirectory(RasterWindow)
 add_subdirectory(SimpleDemo)
