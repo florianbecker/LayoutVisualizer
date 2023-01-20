@@ -140,19 +140,19 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: ctest --output-on-failure -C ${{matrix.config}}
 
-      - name: Coverage
-        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target coverage
+#      - name: Coverage
+#        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
+#        working-directory: ${{runner.workspace}}/build
+#        run: cmake --build . --target coverage
 
-      - name: Archive Coverage
-        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-linux
-          path: |
-                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
-                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
+#      - name: Archive Coverage
+#        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: coverage-linux
+#          path: |
+#                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
+#                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
 
       - name: Documentation
         working-directory: ${{runner.workspace}}/build
