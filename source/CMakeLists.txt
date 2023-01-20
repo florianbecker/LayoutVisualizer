@@ -63,15 +63,18 @@ add_custom_target(${PROJECT_NAME}_documentation
   ../docs/header.html
   ../docs/magic_enum-doxygen-web.tag.xml
   ../docs/post_doxygen.py
+  ../.clang-format
+  ../CODE_OF_CONDUCT.md
+  ../LICENSE
   ../README.md
 )
 
 add_custom_target(${PROJECT_NAME}_workflows
   SOURCES
-#  ../.github/workflows/linux-codeql.yml
+  ../.github/workflows/linux-codeql.yml
   ../.github/workflows/linux.yml
-#  ../.github/workflows/macos-codeql.yml
+  ../.github/workflows/macos-codeql.yml
   ../.github/workflows/macos.yml
-#  ../.github/workflows/windows-codeql.yml
+  ../.github/workflows/windows-codeql.yml
   ../.github/workflows/windows.yml
 )

@@ -1,6 +1,6 @@
-name: linux
+name: linux CodeQL
 
-on: [push, pull_request]
+on: [workflow_dispatch]
 
 jobs:
 
@@ -125,6 +125,11 @@ jobs:
                echo "CXX=clang++-${{matrix.version}}" >> $GITHUB_ENV
              fi
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'cpp'
+
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
 
@@ -136,24 +141,5 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{matrix.config}}
 
-      - name: Test
-        working-directory: ${{runner.workspace}}/build
-        run: ctest --output-on-failure -C ${{matrix.config}}
-
-      - name: Coverage
-        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target coverage
-
-      - name: Archive Coverage
-        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-linux
-          path: |
-                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
-                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
-
-      - name: Documentation
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target documentation
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2

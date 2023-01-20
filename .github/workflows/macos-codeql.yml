@@ -1,6 +1,6 @@
-name: macos
+name: macos CodeQL
 
-on: [push, pull_request]
+on: [workflow_dispatch]
 
 jobs:
 
@@ -64,6 +64,11 @@ jobs:
 
              echo "QT_DIR=/usr/local/opt/qt@6/lib/cmake" >> $GITHUB_ENV
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'cpp'
+
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
 
@@ -75,25 +80,5 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{matrix.config}}
 
-      - name: Test
-        if: matrix.architecture != 'arm64'
-        working-directory: ${{runner.workspace}}/build
-        run: ctest --output-on-failure -C ${{matrix.config}}
-
-#      - name: Coverage
-#        if: matrix.config == 'Debug' && matrix.architecture != 'arm64'
-#        working-directory: ${{runner.workspace}}/build
-#        run: cmake --build . --target coverage
-
-#      - name: Archive Coverage
-#        if: matrix.config == 'Debug' && matrix.architecture != 'arm64'
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: coverage-macos
-#          path: |
-#                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
-#                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
-
-      - name: Documentation
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target documentation
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
