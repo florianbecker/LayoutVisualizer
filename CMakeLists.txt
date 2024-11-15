@@ -44,7 +44,6 @@ endif()
 
 project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES C CXX)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/env.cmake)
-include(${CMAKE}/checks.cmake)
 if(LAYOUTVISUALIZER_MASTER_PROJECT AND CMAKE_BUILD_TYPE STREQUAL Debug)
   include(${CMAKE}/sanitizers.cmake)
 endif()
