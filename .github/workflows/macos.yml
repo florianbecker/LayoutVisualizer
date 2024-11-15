@@ -15,39 +15,32 @@ jobs:
       fail-fast: false
       matrix:
         name: [
-          macos-12-xcode-13-x86_64,
-#          macos-12-xcode-13-arm64,
-          macos-12-xcode-14-x86_64
-#          macos-12-xcode-14-arm64
+          macos-13-xcode-14-x86_64,
+          macos-13-xcode-15-x86_64,
+          macos-14-xcode-16-arm64
         ]
         config: [Debug, Release]
         include:
-          - name: macos-12-xcode-13-x86_64
-            os: macos-12
+          - name: macos-13-xcode-14-x86_64
+            os: macos-13
             compiler: xcode
-            version: "13.4"
+            version: "14.3"
             architecture: x86_64
 
-#          - name: macos-12-xcode-13-arm64
-#            os: macos-12
-#            compiler: xcode
-#            version: "13.4"
-#            architecture: arm64
-
-          - name: macos-12-xcode-14-x86_64
-            os: macos-12
+          - name: macos-13-xcode-15-x86_64
+            os: macos-13
             compiler: xcode
-            version: "14.2"
+            version: "15.2"
             architecture: x86_64
 
-#          - name: macos-12-xcode-14-arm64
-#            os: macos-12
-#            compiler: xcode
-#            version: "14.2"
-#            architecture: arm64
+          - name: macos-14-xcode-16-arm64
+            os: macos-14
+            compiler: xcode
+            version: "15.4"
+            architecture: arm64
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Dependencies
         run: |
@@ -87,12 +80,13 @@ jobs:
 
 #      - name: Archive Coverage
 #        if: matrix.config == 'Debug' && matrix.architecture != 'arm64'
-#        uses: actions/upload-artifact@v3
+#        uses: actions/upload-artifact@v4
 #        with:
-#          name: coverage-macos
+#          name: coverage-macos.${{matrix.compiler}}-${{matrix.version}}
 #          path: |
 #                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
 #                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
+#        overwrite: true
 
       - name: Documentation
         working-directory: ${{runner.workspace}}/build

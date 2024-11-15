@@ -28,7 +28,10 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-cmake_minimum_required(VERSION 3.18...3.25)
+cmake_minimum_required(VERSION 3.18...3.28)
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/policy.cmake)
+update_policy()
 
 # Determine if this is built as a subproject (using add_subdirectory)
 # or if it is the master project.
@@ -40,7 +43,8 @@ if(NOT DEFINED LAYOUTVISUALIZER_MASTER_PROJECT)
 endif()
 
 project(LayoutVisualizer VERSION 0.3 DESCRIPTION "Visualize Qt Layouts" HOMEPAGE_URL "https://vxapps.com" LANGUAGES C CXX)
-include(cmake/env.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/env.cmake)
+include(${CMAKE}/checks.cmake)
 if(LAYOUTVISUALIZER_MASTER_PROJECT AND CMAKE_BUILD_TYPE STREQUAL Debug)
   include(${CMAKE}/sanitizers.cmake)
 endif()

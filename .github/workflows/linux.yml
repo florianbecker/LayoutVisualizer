@@ -19,6 +19,9 @@ jobs:
           ubuntu-20.04-gcc-10,
           ubuntu-22.04-gcc-11,
           ubuntu-22.04-gcc-12,
+          ubuntu-24.04-gcc-12,
+          ubuntu-24.04-gcc-13,
+          ubuntu-24.04-gcc-14,
           ubuntu-20.04-clang-8,
           ubuntu-20.04-clang-9,
           ubuntu-20.04-clang-10,
@@ -26,7 +29,10 @@ jobs:
           ubuntu-22.04-clang-12,
           ubuntu-22.04-clang-13,
           ubuntu-22.04-clang-14,
-          ubuntu-22.04-clang-15
+          ubuntu-22.04-clang-15,
+          ubuntu-24.04-clang-16,
+          ubuntu-24.04-clang-17,
+          ubuntu-24.04-clang-18
         ]
         config: [Debug, Release]
         include:
@@ -49,6 +55,21 @@ jobs:
             os: ubuntu-22.04
             compiler: gcc
             version: 12
+
+          - name: ubuntu-24.04-gcc-12
+            os: ubuntu-24.04
+            compiler: gcc
+            version: 12
+
+          - name: ubuntu-24.04-gcc-13
+            os: ubuntu-24.04
+            compiler: gcc
+            version: 13
+
+          - name: ubuntu-24.04-gcc-14
+            os: ubuntu-24.04
+            compiler: gcc
+            version: 14
 
           - name: ubuntu-20.04-clang-8
             os: ubuntu-20.04
@@ -90,20 +111,30 @@ jobs:
             compiler: clang
             version: 15
 
+          - name: ubuntu-24.04-clang-16
+            os: ubuntu-24.04
+            compiler: clang
+            version: 16
+
+          - name: ubuntu-24.04-clang-17
+            os: ubuntu-24.04
+            compiler: clang
+            version: 17
+
+          - name: ubuntu-24.04-clang-18
+            os: ubuntu-24.04
+            compiler: clang
+            version: 18
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Dependencies
         run: |
-             if [ "${{matrix.version}}" = "15" ]; then
-               wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|gpg --dearmor > llvm-snapshot.gpg
-               sudo mv llvm-snapshot.gpg /etc/apt/trusted.gpg.d/
-               sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main"
-             fi
-
              sudo apt update
              sudo apt install -y ninja-build
              sudo apt install -y doxygen graphviz
+             sudo apt install -y libx11-dev
              if [ "${{matrix.os}}" = "ubuntu-20.04" ]; then
                sudo apt install -y qtbase5-dev
              else
@@ -140,19 +171,20 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: ctest --output-on-failure -C ${{matrix.config}}
 
-#      - name: Coverage
-#        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
-#        working-directory: ${{runner.workspace}}/build
-#        run: cmake --build . --target coverage
+      - name: Coverage
+        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --target coverage
 
-#      - name: Archive Coverage
-#        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: coverage-linux
-#          path: |
-#                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
-#                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
+      - name: Archive Coverage
+        if: matrix.compiler == 'clang' && matrix.config == 'Debug'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-linux.${{matrix.compiler}}-${{matrix.version}}
+          path: |
+                ${{runner.workspace}}/build/tests/coverage.${{matrix.compiler}}-${{matrix.version}}.txt
+                ${{runner.workspace}}/build/tests/coverage.overview.${{matrix.compiler}}-${{matrix.version}}.txt
+          overwrite: true
 
       - name: Documentation
         working-directory: ${{runner.workspace}}/build

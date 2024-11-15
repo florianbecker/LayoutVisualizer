@@ -51,7 +51,7 @@ if(CMAKE_C_COMPILER_ID STREQUAL "MSVC" OR CMAKE_C_SIMULATE_ID STREQUAL "MSVC")
   check_c_compiler_flag(/std:c23 HAVE_FLAG_STD_C23)
   check_c_compiler_flag(/std:c17 HAVE_FLAG_STD_C17)
   # Visual Studio 2019 will have clang-12, Visual Studio will have clang-15, but cmake do not know how to set the standard for that.
-  if(CMAKE_C_COMPILER_ID MATCHES Clang AND CMAKE_C_COMPILER_VERSION VERSION_LESS 16.0)
+  if(CMAKE_C_COMPILER_ID MATCHES Clang AND CMAKE_C_COMPILER_VERSION VERSION_LESS 19.0)
     set(HAVE_FLAG_STD_C23 OFF)
   endif()
 else()
@@ -73,9 +73,10 @@ set(CMAKE_C_EXTENSIONS OFF)
 include(CheckCXXCompilerFlag)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
   check_cxx_compiler_flag(/std:c++23 HAVE_FLAG_STD_CXX23)
+  # An issue with visual studio 2019 with fetch project and same settings, so check early
   check_cxx_compiler_flag(/std:c++20 HAVE_FLAG_STD_CXX20)
   # Visual Studio 2019 will have clang-12, but cmake do not know how to set the standard for that.
-  if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13.0)
+  if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0)
     set(HAVE_FLAG_STD_CXX23 OFF)
   endif()
 else()
@@ -102,7 +103,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # IPO/LTO
-if(LAYOUTVISUALIZER_MASTER_PROJECT)
+if(LAYOUTVISUALIZER_MASTER_PROJECT AND CMAKE_BUILD_TYPE STREQUAL Release)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT HAVE_IPO_SUPPORT OUTPUT IPO_ERROR)
   if(HAVE_IPO_SUPPORT)
@@ -112,7 +113,7 @@ if(LAYOUTVISUALIZER_MASTER_PROJECT)
   endif()
 endif()
 
-# Compiler configuration
+# Warning flags
 include(${CMAKE}/clang_warnings.cmake)
 include(${CMAKE}/gcc_warnings.cmake)
 include(${CMAKE}/msvc_warnings.cmake)

@@ -28,6 +28,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* c header */
+#include <cstdint> // std::int32_t
+
 /* qt header */
 #include <QApplication>
 
@@ -50,7 +53,7 @@ std::int32_t main( std::int32_t argc,
   demo.show();
 
   #ifdef __APPLE__
-  [[maybe_unused]] vx::MacExtras xtra( &demo );
+  [[maybe_unused]] const vx::MacExtras xtra( &demo );
   #endif
 
   return QApplication::exec();

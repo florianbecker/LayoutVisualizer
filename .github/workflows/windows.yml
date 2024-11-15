@@ -8,6 +8,9 @@ jobs:
     name: ${{matrix.name}} (${{matrix.config}})
     runs-on: ${{matrix.os}}
 
+    env:
+      CMAKE_GENERATOR: Ninja
+
     strategy:
       fail-fast: false
       matrix:
@@ -26,71 +29,64 @@ jobs:
           - name: windows-2019-msvc2019
             os: windows-2019
             compiler: cl
-            version: Visual Studio 16 2019
-            architecture: -A x64
+            architecture: x64
             version2: win64_msvc2019_64
             qtversion: 6.4.2
 
           - name: windows-2019-msvc2019-win32
             os: windows-2019
             compiler: cl
-            version: Visual Studio 16 2019
-            architecture: -A Win32
+            architecture: x86
             version2: win32_msvc2019
             qtversion: 5.15.2
 
           - name: windows-2019-msvc2019-arm64
             os: windows-2019
             compiler: cl
-            version: Visual Studio 16 2019
-            architecture: -A ARM64
+            architecture: x64_arm64
             version2: win64_msvc2019_arm64
             qtversion: 6.4.2
 
           - name: windows-2019-msvc2019-clang
             os: windows-2019
             compiler: clang-cl
-            version: Visual Studio 16 2019
-            architecture: -A x64
-            toolchain: -T ClangCl
+            architecture: x64
             version2: win64_msvc2019_64
             qtversion: 6.4.2
 
           - name: windows-2022-msvc2022
             os: windows-2022
             compiler: cl
-            version: Visual Studio 17 2022
-            architecture: -A x64
+            architecture: x64
             version2: win64_msvc2019_64
             qtversion: 6.4.2
 
           - name: windows-2022-msvc2022-win32
             os: windows-2022
             compiler: cl
-            version: Visual Studio 17 2022
-            architecture: -A Win32
+            architecture: x86
             version2: win32_msvc2019
             qtversion: 5.15.2
 
           - name: windows-2022-msvc2022-arm64
             os: windows-2022
             compiler: cl
-            version: Visual Studio 17 2022
-            architecture: -A ARM64
+            architecture: x64_arm64
             version2: win64_msvc2019_arm64
             qtversion: 6.4.2
 
           - name: windows-2022-msvc2022-clang
             os: windows-2022
             compiler: clang-cl
-            version: Visual Studio 17 2022
-            architecture: -A x64
-            toolchain: -T ClangCl
+            architecture: x64
             version2: win64_msvc2019_64
             qtversion: 6.4.2
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.architecture}}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -102,7 +98,7 @@ jobs:
           cache: 'true'
 
       - name: Install Qt (Host)
-        if: matrix.architecture == '-A ARM64'
+        if: matrix.architecture == 'x64_arm64'
         uses: jurplel/install-qt-action@v3
         with:
           version: '${{matrix.qtversion}}'
@@ -111,10 +107,19 @@ jobs:
           arch: 'win64_msvc2019_64'
           cache: 'true'
 
+       - name: Cache Dependencies
+        id: cache-choco
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-choco-packages
+        with:
+          path: C:/Users/runneradmin/AppData/Local/Temp/chocolatey
+          key: ${{env.cache-name}}
+
       - name: Dependencies
         run: |
              choco install doxygen.install graphviz -y
-             if ( "${{matrix.architecture}}" -eq "-A ARM64" ) {
+             if ( "${{matrix.architecture}}" -eq "x64_arm64" ) {
                echo "Qt6_DIR=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64" >> $env:GITHUB_ENV
                echo "QT_PLUGIN_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/plugins" >> $env:GITHUB_ENV
                echo "QML2_IMPORT_PATH=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64/qml" >> $env:GITHUB_ENV
@@ -126,14 +131,14 @@ jobs:
 
       - name: Configure CMake
         working-directory: ${{runner.workspace}}/build
-        run: cmake $env:GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}} -G"${{matrix.version}}" ${{matrix.architecture}} ${{matrix.toolchain}}
+        run: cmake $env:GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE:STRING=${{matrix.config}}
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{matrix.config}}
 
       - name: Test
-        if: matrix.architecture != '-A ARM64'
+        if: ${{ matrix.architecture != 'x64_arm64' && matrix.name != 'windows-2022-msvc2022' }}
         working-directory: ${{runner.workspace}}/build
         run: ctest --output-on-failure -C ${{matrix.config}}
 

@@ -28,10 +28,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* c header */
+#include <cstdint> // std::int32_t
+
 /* stl header */
 #include <chrono>
 
 /* qt header */
+#include <QColor>
 #include <QEvent>
 #include <QFormLayout>
 #include <QMouseEvent>

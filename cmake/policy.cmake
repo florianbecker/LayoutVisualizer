@@ -28,12 +28,15 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-include(FetchContent)
+# it must be a macro cause policies have scopes
+# http://www.cmake.org/cmake/help/v3.0/command/cmake_policy.html
+macro (update_policy)
+  # Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP in CMake 3.24:
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
+    cmake_policy(SET CMP0135 NEW)
+  endif()
 
-FetchContent_Declare(doxygen-awesome-css
-  GIT_REPOSITORY https://github.com/jothepro/doxygen-awesome-css.git
-  GIT_TAG v2.3.1
-  GIT_SHALLOW 1
-)
-
-FetchContent_MakeAvailable(doxygen-awesome-css)
+  if(POLICY CMP0135)
+    cmake_policy(SET CMP0135 NEW)
+  endif()
+endmacro()
