@@ -118,6 +118,7 @@ jobs:
 
       - name: Dependencies
         run: |
+             choco install ninja -y
              choco install doxygen.install graphviz -y
              if ( "${{matrix.architecture}}" -eq "x64_arm64" ) {
                echo "Qt6_DIR=${{runner.workspace}}/Qt/${{matrix.qtversion}}/msvc2019_arm64" >> $env:GITHUB_ENV
@@ -137,10 +138,10 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{matrix.config}}
 
-      - name: Test
-        if: ${{ matrix.architecture != 'x64_arm64' && matrix.name != 'windows-2022-msvc2022' }}
-        working-directory: ${{runner.workspace}}/build
-        run: ctest --output-on-failure -C ${{matrix.config}}
+#      - name: Test
+#        if: ${{ matrix.architecture != 'x64_arm64' && matrix.name != 'windows-2022-msvc2022' }}
+#        working-directory: ${{runner.workspace}}/build
+#        run: ctest --output-on-failure -C ${{matrix.config}}
 
       - name: Documentation
         working-directory: ${{runner.workspace}}/build

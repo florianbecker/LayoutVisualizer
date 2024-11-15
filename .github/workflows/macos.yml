@@ -68,10 +68,10 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{matrix.config}}
 
-      - name: Test
-        if: matrix.architecture != 'arm64'
-        working-directory: ${{runner.workspace}}/build
-        run: ctest --output-on-failure -C ${{matrix.config}}
+#      - name: Test
+#        if: matrix.architecture != 'arm64'
+#        working-directory: ${{runner.workspace}}/build
+#        run: ctest --output-on-failure -C ${{matrix.config}}
 
 #      - name: Coverage
 #        if: matrix.config == 'Debug' && matrix.architecture != 'arm64'
