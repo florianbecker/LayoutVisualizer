@@ -30,57 +30,57 @@ jobs:
             os: windows-2019
             compiler: cl
             architecture: x64
-            version2: win64_msvc2019_64
-            qtversion: "6.4.2"
+            complete: win64_msvc2019_64
+            qtversion: "6.8.0"
 
           - name: windows-2019-msvc2019-win32
             os: windows-2019
             compiler: cl
             architecture: x86
-            version2: win32_msvc2019
+            complete: win32_msvc2019
             qtversion: "5.15.2"
 
           - name: windows-2019-msvc2019-arm64
             os: windows-2019
             compiler: cl
             architecture: x64_arm64
-            version2: win64_msvc2019_arm64
-            qtversion: "6.4.2"
+            complete: win64_msvc2019_arm64
+            qtversion: "6.8.0"
 
           - name: windows-2019-msvc2019-clang
             os: windows-2019
             compiler: clang-cl
             architecture: x64
-            version2: win64_msvc2019_64
-            qtversion: "6.4.2"
+            complete: win64_msvc2019_64
+            qtversion: "6.8.0"
 
           - name: windows-2022-msvc2022
             os: windows-2022
             compiler: cl
             architecture: x64
-            version2: win64_msvc2019_64
-            qtversion: "6.4.2"
+            complete: win64_msvc2019_64
+            qtversion: "6.8.0"
 
           - name: windows-2022-msvc2022-win32
             os: windows-2022
             compiler: cl
             architecture: x86
-            version2: win32_msvc2019
+            complete: win32_msvc2019
             qtversion: "5.15.2"
 
           - name: windows-2022-msvc2022-arm64
             os: windows-2022
             compiler: cl
             architecture: x64_arm64
-            version2: win64_msvc2019_arm64
-            qtversion: "6.4.2"
+            complete: win64_msvc2019_arm64
+            qtversion: "6.8.0"
 
           - name: windows-2022-msvc2022-clang
             os: windows-2022
             compiler: clang-cl
             architecture: x64
-            version2: win64_msvc2019_64
-            qtversion: "6.4.2"
+            complete: win64_msvc2019_64
+            qtversion: "6.8.0"
 
     steps:
       - uses: actions/checkout@v4
@@ -89,17 +89,17 @@ jobs:
           arch: ${{matrix.architecture}}
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: '${{matrix.qtversion}}'
           host: 'windows'
           target: 'desktop'
-          arch: '${{matrix.version2}}'
+          arch: '${{matrix.complete}}'
           cache: 'true'
 
       - name: Install Qt (Host)
         if: matrix.architecture == 'x64_arm64'
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: '${{matrix.qtversion}}'
           host: 'windows'
