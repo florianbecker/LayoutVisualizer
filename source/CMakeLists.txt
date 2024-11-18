@@ -35,10 +35,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 add_library(${PROJECT_NAME}
-  ../.github/workflows/linux.yml
-  ../.github/workflows/macos.yml
-  ../.github/workflows/windows.yml
-  ../README.md
   LayoutVisualizer.cpp
   LayoutVisualizer.h
 )
