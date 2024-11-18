@@ -58,7 +58,7 @@ jobs:
              echo "QT_DIR=/usr/local/opt/qt@6/lib/cmake" >> $GITHUB_ENV
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: 'cpp'
 
@@ -74,4 +74,4 @@ jobs:
         run: cmake --build . --config ${{matrix.config}}
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
