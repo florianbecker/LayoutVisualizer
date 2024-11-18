@@ -31,7 +31,7 @@ jobs:
             compiler: cl
             architecture: x64
             complete: win64_msvc2019_64
-            qtversion: "6.8"
+            qtversion: "6.8.0"
 
           - name: windows-2019-msvc2019-win32
             os: windows-2019
@@ -45,21 +45,21 @@ jobs:
             compiler: cl
             architecture: x64_arm64
             complete: win64_msvc2019_arm64
-            qtversion: "6.8"
+            qtversion: "6.8.0"
 
           - name: windows-2019-msvc2019-clang
             os: windows-2019
             compiler: clang-cl
             architecture: x64
             complete: win64_msvc2019_64
-            qtversion: "6.8"
+            qtversion: "6.8.0"
 
           - name: windows-2022-msvc2022
             os: windows-2022
             compiler: cl
             architecture: x64
             complete: win64_msvc2019_64
-            qtversion: "6.8"
+            qtversion: "6.8.0"
 
           - name: windows-2022-msvc2022-win32
             os: windows-2022
@@ -73,14 +73,14 @@ jobs:
             compiler: cl
             architecture: x64_arm64
             complete: win64_msvc2019_arm64
-            qtversion: "6.8"
+            qtversion: "6.8.0"
 
           - name: windows-2022-msvc2022-clang
             os: windows-2022
             compiler: clang-cl
             architecture: x64
             complete: win64_msvc2019_64
-            qtversion: "6.8"
+            qtversion: "6.8.0"
 
     steps:
       - uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
           arch: ${{matrix.architecture}}
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v3
         with:
           version: '${{matrix.qtversion}}'
           host: 'windows'
@@ -99,7 +99,7 @@ jobs:
 
       - name: Install Qt (Host)
         if: matrix.architecture == 'x64_arm64'
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v3
         with:
           version: '${{matrix.qtversion}}'
           host: 'windows'
